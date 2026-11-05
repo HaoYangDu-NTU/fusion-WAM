@@ -1,0 +1,7 @@
+{
+  "passed": true,
+  "from_scratch": true,
+  "steps": 10690,
+  "tokens": 980,
+  "global_batch": 256
+}

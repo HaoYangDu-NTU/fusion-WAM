@@ -1,0 +1,16 @@
+# 结构示例；先完成原生模型、Hydra encoder config 和资产登记再启用。
+id: E03
+name: m29_rynn9b_your_encoder
+source: your_source_repository
+asset: your_pretrained_asset
+geometry:
+  clean_latents: 1       # 填写自己的原生值
+  future_latents: 4
+  channels: 1024
+  tokens: 490
+  temporal_design: your_native_design
+overrides:
+  - model/video_backbone/encoder=your_encoder
+  # 原生参数放在你的 encoder 配置；可选动态导入：
+  # implementation_module: your_package.encoder
+freeze_visual: video_backbone.video_encoder

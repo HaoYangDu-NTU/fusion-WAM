@@ -1,0 +1,12 @@
+{
+  "passed": true,
+  "deleted_roots_confirmed": true,
+  "post_deletion_checkpoint_headers_valid": true,
+  "text_cache_and_identity_paths_valid": true,
+  "repaired_deployment_links_valid": 9,
+  "results_preserved": true,
+  "experiments": [
+    "E05",
+    "E06"
+  ]
+}

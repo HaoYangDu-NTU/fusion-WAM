@@ -1,0 +1,18 @@
+id: E08
+name: m29_rynn9b_siglip_l
+source: E07
+asset: siglip_l
+geometry:
+  clean_latents: 2
+  future_latents: 8
+  channels: 1024
+  tokens: 1280
+  temporal_design: native_framewise_history_and_current
+overrides:
+  - model/video_backbone/encoder=siglip
+freeze_visual: video_backbone.video_encoder
+report_future_quality: true
+worker_threads: 2
+data_overrides:
+  type: libero_native_stereo
+  native_view_size: 256

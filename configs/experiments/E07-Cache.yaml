@@ -1,0 +1,5 @@
+id: E07-Cache
+name: m29_rynn9b_dinov3_l_frame_cache
+base_experiment: E07
+data_overrides:
+  frame_feature_cache_dir: /data/fcy/code/openwam-exp/cache/dinov3_l_libero_frames

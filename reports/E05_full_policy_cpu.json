@@ -1,0 +1,137 @@
+{
+  "passed": true,
+  "real_pretrained_encoder": true,
+  "real_libero_reader": true,
+  "device": "cpu",
+  "threads": 4,
+  "batch_size": 1,
+  "policy_size": "full 30-layer architecture",
+  "original_policy": {
+    "video_dim": 1536,
+    "video_layers": 30,
+    "action_dim": 1024
+  },
+  "smoke_policy": {
+    "video_dim": 1536,
+    "video_layers": 30,
+    "action_dim": 1024
+  },
+  "trainable_parameters": 1924683856,
+  "encoder_parameters": 907918336,
+  "encoder_trainable": 0,
+  "load_seconds": 18.724392405245453,
+  "encode_10_times_seconds": 5.60021145734936,
+  "input_rgb_frames": 10,
+  "per_view_resolution": [
+    224,
+    224
+  ],
+  "raw_feature_shape": [
+    1,
+    2048,
+    10,
+    14,
+    28
+  ],
+  "projected_shape": [
+    1,
+    1536,
+    10,
+    7,
+    14
+  ],
+  "tokens": 980,
+  "clean_latents": 2,
+  "future_latents": 8,
+  "video_padding_mask_shape": [
+    1,
+    8
+  ],
+  "target_checks": [
+    {
+      "shape": [
+        1,
+        2048,
+        10,
+        14,
+        28
+      ],
+      "requires_grad": false
+    },
+    {
+      "shape": [
+        1,
+        2048,
+        10,
+        14,
+        28
+      ],
+      "requires_grad": false
+    }
+  ],
+  "future_leakage_max_abs": 0.0,
+  "frozen_targets_unchanged": true,
+  "projection_updated": true,
+  "steps": [
+    {
+      "step": 1,
+      "forward_seconds": 2.8243217589333653,
+      "backward_seconds": 4.6393123851157725,
+      "losses": {
+        "loss": 0.5463762283325195,
+        "loss_video": 0.323135644197464,
+        "loss_action": 0.22324056923389435
+      },
+      "gradient_norms": {
+        "clean_proj": 0.10125815123319626,
+        "future_proj1": 0.015203936956822872,
+        "future_proj2": 0.0026694834232330322,
+        "output_head": 0.12913617491722107,
+        "m29_first_block_q": 0.0020642520394176245
+      }
+    },
+    {
+      "step": 2,
+      "forward_seconds": 2.4533493709750473,
+      "backward_seconds": 4.835814831778407,
+      "losses": {
+        "loss": 36.68992614746094,
+        "loss_video": 1.9458930492401123,
+        "loss_action": 34.74403381347656
+      },
+      "gradient_norms": {
+        "clean_proj": 3.3675475120544434,
+        "future_proj1": 0.862841784954071,
+        "future_proj2": 0.14936980605125427,
+        "output_head": 0.8595523834228516,
+        "m29_first_block_q": 0.04074357450008392
+      }
+    }
+  ],
+  "reload_checks": {
+    "full_real_checkpoint": true,
+    "strict_reload": true,
+    "contract": {
+      "name": "vggt_omega",
+      "latent_channels": 2048,
+      "patch_size": [
+        1,
+        2,
+        2
+      ],
+      "temporal_compression": 1,
+      "num_condition_latents": 2
+    },
+    "frozen_features_max_abs_difference": 0.0,
+    "train_eval_clean_max_abs_difference": 0.0,
+    "action_chunk_shape": [
+      32,
+      10
+    ],
+    "actions_finite": true,
+    "temporary_checkpoint_deleted": true,
+    "elapsed_seconds": 31.25248020514846
+  },
+  "peak_process_rss_gib": 30.88347625732422,
+  "full_size_gpu_timing_measured": false
+}

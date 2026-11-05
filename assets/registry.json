@@ -1,0 +1,195 @@
+{
+  "schema_version": 1,
+  "pretrained": {
+    "rynnbrain_9b": {
+      "role": "frozen_offline_text_encoder",
+      "directory": "/data/fcy/model/RynnBrain1_1-9B",
+      "link_name": "rynnbrain-9b",
+      "required_files": {
+        "model.safetensors": 18819722392,
+        "config.json": 2776,
+        "tokenizer.json": 19989343,
+        "tokenizer_config.json": 1139,
+        "chat_template.jinja": 7756
+      },
+      "model_type": "qwen3_5",
+      "hidden_size": 4096,
+      "num_hidden_layers": 32
+    },
+    "vjepa21_g": {
+      "role": "frozen_visual_encoder",
+      "directory": "/data/fcy/code/OpenWAM_v2/assets/vjepa",
+      "link_name": "vjepa21-g",
+      "required_files": {
+        "vjepa2_1_vitg_384.pt": 16878318788,
+        "manifest.json": 336
+      },
+      "checkpoint_key": "target_encoder",
+      "hidden_size": 1408,
+      "patch_size": 16,
+      "tubelet_size": 2
+    },
+    "dinov3_hplus": {
+      "role": "frozen_visual_encoder",
+      "directory": "/data/fcy/model/dinov3",
+      "link_name": "dinov3-hplus",
+      "required_files": {
+        "model.safetensors": 3362432800,
+        "config.json": 744,
+        "preprocessor_config.json": 585
+      },
+      "hidden_size": 1280,
+      "patch_size": 16,
+      "source_revision": "c807c9eeea853df70aec4069e6f56b28ddc82acc",
+      "reference_sha256": {
+        "model.safetensors": "3e1d4d18b9bfa9f28fad8e9de6a783f1313532d3460efa4cd0b12521d81d1a4d"
+      },
+      "reference_hash_origin": "0penWAM_dino/docs/experiments/m29_dinov3.md; not recomputed by default"
+    },
+    "ijepa_g": {
+      "role": "frozen_visual_encoder",
+      "directory": "/data/fcy/model/ijepa",
+      "link_name": "ijepa-g",
+      "required_files": {
+        "checkpoint.pth.tar": 16534564553
+      },
+      "architecture": "vit_giant",
+      "hidden_size": 1408,
+      "patch_size": 16,
+      "checkpoint_key": "encoder",
+      "load_note": "Existing I-JEPA loader selects encoder, then state_dict, then a direct state mapping; strips module./encoder. prefixes. Validate strict load during implementation. Do not concatenate part files again."
+    },
+    "wan21_i2v_14b": {
+      "role": "frozen_video_feature_encoder",
+      "directory": "/data/fcy/code/openwam-exp/encoder/wan21-i2v-14b-480p",
+      "link_name": "wan21-i2v-14b-480p",
+      "required_files": {
+        "config.json": 250,
+        "diffusion_pytorch_model.safetensors.index.json": 116451,
+        "Wan2.1_VAE.pth": 507609880,
+        "models_clip_open-clip-xlm-roberta-large-vit-huge-14.pth": 4772359047,
+        "models_t5_umt5-xxl-enc-bf16.pth": 11361920418,
+        "diffusion_pytorch_model-00001-of-00007.safetensors": 9847223624,
+        "diffusion_pytorch_model-00002-of-00007.safetensors": 9797021016,
+        "diffusion_pytorch_model-00003-of-00007.safetensors": 9797041744,
+        "diffusion_pytorch_model-00004-of-00007.safetensors": 9692142864,
+        "diffusion_pytorch_model-00005-of-00007.safetensors": 9692142864,
+        "diffusion_pytorch_model-00006-of-00007.safetensors": 9692142864,
+        "diffusion_pytorch_model-00007-of-00007.safetensors": 7061933536,
+        "empty_context.safetensors": 4194656
+      },
+      "hidden_size": 5120,
+      "hidden_size_config_key": "dim",
+      "model_type": "i2v",
+      "patch_size": 16,
+      "num_hidden_layers": 40,
+      "conditioning": "native_clip_image_plus_native_umt5_empty_prompt",
+      "reference_sha256": {
+        "empty_context.safetensors": "a4e12df8f0d845e05dfae588ac6323ff0cba1985464a23f627a80474f05c025d"
+      }
+    },
+    "wan21_vae": {
+      "role": "frozen_native_vae_encoder_only",
+      "directory": "/data/fcy/code/openwam-exp/encoder/wan21-vae",
+      "link_name": "wan21-vae",
+      "required_files": {
+        "Wan2.1_VAE.pth": 507609880
+      },
+      "hidden_size": 16,
+      "reference_sha256": {
+        "Wan2.1_VAE.pth": "38071ab59bd94681c686fa51d75a1968f64e470262043be31f7a094e442fd981"
+      },
+      "source": "https://huggingface.co/Wan-AI/Wan2.1-VACE-1.3B/blob/main/Wan2.1_VAE.pth",
+      "note": "Load encoder and conv1 only; exclude VAE decoder and all diffusion DiT/CLIP/T5 weights."
+    },
+    "wan22_vae": {
+      "role": "frozen_native_vae_encoder_only",
+      "directory": "/data/fcy/code/openwam-exp/encoder/wan22-vae",
+      "link_name": "wan22-vae",
+      "required_files": {
+        "Wan2.2_VAE.pth": 2818839170
+      },
+      "hidden_size": 48,
+      "reference_sha256": {
+        "Wan2.2_VAE.pth": "20eb789667fa5e60e7516bf509512f6cb61f01b0aa0695eadaea930c13892b36"
+      },
+      "source": "https://huggingface.co/Wan-AI/Wan2.2-TI2V-5B/blob/main/Wan2.2_VAE.pth",
+      "note": "Load encoder and conv1 only; exclude VAE decoder and all diffusion DiT/CLIP/T5 weights."
+    },
+    "vggt_omega_512": {
+      "role": "frozen_native_spatial_encoder",
+      "directory": "/data/fcy/code/openwam-exp/encoder/vggt-omega",
+      "required_files": {
+        "vggt_omega_1b_512.pt": 4576706117
+      },
+      "reference_sha256": {
+        "vggt_omega_1b_512.pt": "c02da418b18bb01d0392598d3f6147366bcde1bb70fd08a5e3bf7925b0667934"
+      },
+      "source": "https://huggingface.co/facebook/VGGT-Omega",
+      "note": "Official 512 checkpoint, frozen aggregator only. 224 transfer resolution; NOT 416-Reproduction. Joint stereo independently per timestamp; no explicit register injection."
+    },
+    "flux2_vae": {
+      "directory": "/data/fcy/code/openwam-exp/encoder/flux2-vae",
+      "required_files": {
+        "config.json": 821,
+        "encoder_only.safetensors": 68863720
+      },
+      "source": "official FLUX.2-klein-4B VAE BF16"
+    },
+    "dinov3_l": {
+      "role": "frozen_visual_encoder",
+      "directory": "/data/fcy/code/openwam-exp/encoder/dinov3-l",
+      "link_name": "dinov3-l",
+      "required_files": {
+        "model.safetensors": 1212559808,
+        "config.json": 745,
+        "preprocessor_config.json": 585
+      },
+      "hidden_size": 1024,
+      "patch_size": 16,
+      "num_hidden_layers": 24,
+      "source": "https://huggingface.co/facebook/dinov3-vitl16-pretrain-lvd1689m",
+      "source_revision": "ea8dc2863c51be0a264bab82070e3e8836b02d51",
+      "reference_sha256": {
+        "model.safetensors": "dcb2e45127cccbf1601e5f42fef165eea275c8e5213197e8dcf3f48822718179"
+      },
+      "download_note": "Public copy accepted only after byte-identical official SHA256 check; see encoder/dinov3-l/provenance.json"
+    },
+    "siglip_l": {
+      "role": "frozen_spatial_vision_encoder_only",
+      "directory": "/data/fcy/code/openwam-exp/encoder/siglip-large-patch16-256/vision_encoder",
+      "link_name": "siglip-l",
+      "required_files": {
+        "model.safetensors": 1213486816,
+        "config.json": 418,
+        "preprocessor_config.json": 368
+      },
+      "hidden_size": 1024,
+      "patch_size": 16,
+      "native_view_size": 256,
+      "source": "https://huggingface.co/google/siglip-large-patch16-256",
+      "source_revision": "d0da9f876e7d66b4e250cd2450c3ba2ce735e447",
+      "reference_sha256": {
+        "model.safetensors": "2e1966a48603171af8786eaed869b1b8bf29fd820bfcf2756915a1d0803c8dda"
+      },
+      "note": "Exact official vision tensors; text tower/MAP head/logit parameters excluded. Native 256; original SigLIP, not SigLIP2."
+    }
+  },
+  "references_only": {
+    "m29_rynnbrain_2b": {
+      "directory": "/data/fcy/code/OpenWAM_v2/outputs/imported_gpu2/m29_rynnbrain2b_20261019_155439/deployment",
+      "checkpoint": "checkpoint_step_10690.safetensors",
+      "use": "historical_2b_comparison_not_9b_initialization"
+    },
+    "dexjoco_rynnbrain_9b": {
+      "directory": "/data/fcy/code/OpenWAM_dexjoco/outputs/dexjoco_vjepa_1_3b_dev_vx_ax_s42.0/2026-10-20_14-49-36",
+      "checkpoint": "checkpoint_step_60000.safetensors",
+      "use": "different_dataset_not_libero_baseline"
+    },
+    "legacy_ijepa_cosmos": {
+      "directory": "/data/fcy/code/openwam-ijepa/outputs/libero_ijepa_1_3b_i3_vx_ax_s5.0/2026-10-20_17-14-50",
+      "checkpoint": "checkpoint_step_12000.safetensors",
+      "use": "different_text_encoder_and_video_shift_not_comparable"
+    }
+  }
+}

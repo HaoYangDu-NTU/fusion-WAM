@@ -1,0 +1,95 @@
+{
+  "passed": true,
+  "experiments": [
+    {
+      "experiment": "E05",
+      "run": "/data/fcy/code/openwam-exp/outputs/m29_rynn9b_vggt_omega_spatial/train/s42/2026-10-26_23-52-12",
+      "strict_reload": true,
+      "contract": {
+        "name": "vggt_omega",
+        "latent_channels": 2048,
+        "patch_size": [
+          1,
+          2,
+          2
+        ],
+        "temporal_compression": 1,
+        "num_condition_latents": 2
+      },
+      "clean_latents": [
+        1,
+        2048,
+        2,
+        14,
+        28
+      ],
+      "projected_shape": [
+        1,
+        1536,
+        10,
+        7,
+        14
+      ],
+      "tokens": 980,
+      "eval_plans": {
+        "libero": {
+          "tasks": 40,
+          "correct_instruction_suffix": false
+        },
+        "libero-plus": {
+          "tasks": 10030,
+          "correct_instruction_suffix": true
+        }
+      },
+      "frozen_encoder": true,
+      "deployment_cache_disabled": true,
+      "checkpoint_sha256": "dd1c2ed81960260409827c49c4f355b386c379855cf32b73ff83f0f72f0f3f25",
+      "elapsed_seconds": 41.46258004195988
+    },
+    {
+      "experiment": "E06",
+      "run": "/data/fcy/code/openwam-exp/outputs/m29_rynn9b_flux2_vae/train/s42/2026-10-28_10-09-17",
+      "strict_reload": true,
+      "contract": {
+        "name": "flux2_framewise",
+        "latent_channels": 128,
+        "patch_size": [
+          1,
+          2,
+          2
+        ],
+        "temporal_compression": 1,
+        "num_condition_latents": 2
+      },
+      "clean_latents": [
+        1,
+        128,
+        2,
+        14,
+        28
+      ],
+      "projected_shape": [
+        1,
+        1536,
+        10,
+        7,
+        14
+      ],
+      "tokens": 980,
+      "eval_plans": {
+        "libero": {
+          "tasks": 40,
+          "correct_instruction_suffix": false
+        },
+        "libero-plus": {
+          "tasks": 10030,
+          "correct_instruction_suffix": true
+        }
+      },
+      "frozen_encoder": true,
+      "deployment_cache_disabled": true,
+      "checkpoint_sha256": "9d329f799e9bc711b622ca4864e8f5249befdfb5dc9e89dbfafec4d295149bc0",
+      "elapsed_seconds": 31.745217356830835
+    }
+  ]
+}

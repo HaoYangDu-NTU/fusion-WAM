@@ -1,0 +1,8 @@
+id: E01-S60-vx-Cache
+name: m29_rynn9b_dinov3_e01_s60_vx_frame_cache
+base_experiment: E01-Cache
+report_future_quality: true
+policy_overrides:
+  model.architecture.video_prediction_type: v
+  model.architecture.action_prediction_type: x
+  model.video_backbone.shift_video: 60

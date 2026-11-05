@@ -1,0 +1,27 @@
+# Official I-JEPA image encoder adapted to M29.
+# The encoder is applied independently to each pixel frame.  The adapter then
+# groups future frames in pairs and handles the history/current clean prefix.
+
+name: ijepa
+model_path: /path/to/ijepa
+checkpoint: checkpoint.pth.tar
+model_name: vit_giant
+img_size: 224
+patch_size: 16
+
+# "gated_difference" is the strict M29/V-JEPA geometry: 1 fused clean + 4
+# future latents for the default 10 input frames. "two_clean" preserves both
+# history and current as independent clean latents and emits 6 total latents.
+history_fusion_mode: gated_difference
+temporal_group_size: 2
+add_one_history_context: true
+seperate_encode_view: true
+add_input_bottleneck: true
+bottleneck_dim: 256
+feature_norm_eps: 1.0e-5
+
+# The training launcher freezes only ``video_encoder._m``.  The temporal
+# adapter (delta_proj + delta_scale) remains trainable.
+
+svae_path: null
+svae_target_dim: null

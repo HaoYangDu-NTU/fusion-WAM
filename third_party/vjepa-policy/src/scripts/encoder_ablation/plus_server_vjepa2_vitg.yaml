@@ -1,0 +1,23 @@
+extends: /data/zhangyang/workspace/vla-evaluation-harness/configs/model_servers/vjepa_policy/vjepa2_libero_plus_t5len128.yaml
+args:
+  checkpoint: /data/zhangyang/workspace/VJEPA-Policy-copy/runs/full_encoder_ablation_vjepa2_vitg_independent224_t5len128_gbs128_step21360_seed7_8gpu/checkpoint_step021360.pt
+  pretrained_encoder: /data/zhangyang/workspace/VJEPA-WAM/pretrained_weights/hub/checkpoints/vitg.pt
+  dataset_stats: /data/zhangyang/workspace/VJEPA-Policy-copy/runs/full_encoder_ablation_vjepa2_vitg_independent224_t5len128_gbs128_step21360_seed7_8gpu/dataset_stats.json
+  crop_size: 224
+  frame_stride: 4
+  image_keys:
+    agentview: observation.images.image
+    wrist: observation.images.wrist_image
+  chunk_size: 16
+  max_batch_size: 12
+  policy_config:
+    encoder_family: vjepa2
+    model_name: vit_giant_xformers
+    encoder_checkpoint_key: target_encoder
+    t5_len: 128
+    num_frames: 10
+    tubelet_size: 2
+    context_tubelets: 1
+    view_layout: independent
+    encoder_interpolate_rope: true
+    corrected_predictor_rope: true

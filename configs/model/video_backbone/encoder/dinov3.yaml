@@ -1,0 +1,22 @@
+# DINOv3 ViT external video encoder. Activate via:
+#   model.video_backbone.from_scratch=true model.video_backbone.shift_video=12.0 model/video_backbone/encoder=dinov3
+# from_scratch=true is REQUIRED (the DiT patch embedding is rebuilt for the DINOv3 hidden size).
+# Structural fields (z_dim/spatial_compression/...) are read from the HF config.json, not yaml.
+# SECURITY: loading passes trust_remote_code=True — only point model_path at trusted directories.
+
+name: dinov3
+model_path: /path/to/DINOv3  # [Required] HF snapshot dir; deploy restores weights/config from the saved run
+
+# Legacy defaults remain /4 pooling and one clean frame. The M29 launcher
+# disables pooling and keeps [history, current] as two clean latent frames.
+use_avg_t_pooling: true
+add_one_history_context: false
+seperate_encode_view: false
+add_input_bottleneck: false
+bottleneck_dim: 512
+feature_norm_eps: 1.0e-6  # M29 uses 1e-5, matching its frozen feature_norm
+
+# Optional frozen S-VAE feature reducer (raw embed_dim -> svae_target_dim, e.g. 48
+# to match the Wan VAE z_dim); train via scripts/svae_train/. Leave both null for the raw path.
+svae_path: null         # trained svae.pt (weights travel in the main checkpoint)
+svae_target_dim: null   # optional cross-check vs the S-VAE latent_dim

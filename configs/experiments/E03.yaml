@@ -1,0 +1,20 @@
+id: E03
+name: m29_rynn9b_wan21_vae
+source: Wan-AI/Wan2.1-VACE-1.3B/Wan2.1_VAE.pth
+asset: wan21_vae
+geometry:
+  clean_latents: 1
+  future_latents: 8
+  channels: 16
+  tokens: 3528
+  temporal_design: native_causal_vae_video
+overrides:
+  - model/video_backbone/encoder=wan_vae
+  - model.video_backbone.encoder.vae_version='2.1'
+data_overrides:
+  video_stride: 1
+  history_num_tubelets: 0
+  clean_condition_frame_offsets: null
+freeze_visual: video_backbone.video_encoder
+environment:
+  PYTORCH_CUDA_ALLOC_CONF: expandable_segments:True

@@ -1,0 +1,21 @@
+id: E01-Cache
+name: m29_rynn9b_dinov3_frame_cache
+source: 0penWAM_dino
+asset: dinov3_hplus
+geometry:
+  clean_latents: 2
+  future_latents: 8
+  channels: 1280
+  tokens: 980
+  temporal_design: native_framewise_history_and_current
+overrides:
+  - model/video_backbone/encoder=dinov3
+  - model.video_backbone.encoder.use_avg_t_pooling=false
+  - model.video_backbone.encoder.add_one_history_context=true
+  - model.video_backbone.encoder.seperate_encode_view=true
+  - model.video_backbone.encoder.add_input_bottleneck=true
+  - model.video_backbone.encoder.bottleneck_dim=256
+  - model.video_backbone.encoder.feature_norm_eps=1e-5
+freeze_visual: video_backbone.video_encoder
+data_overrides:
+  frame_feature_cache_dir: /data/fcy/code/openwam-exp/cache/dinov3_libero_frames

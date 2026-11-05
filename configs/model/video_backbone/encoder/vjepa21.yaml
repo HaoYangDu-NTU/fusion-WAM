@@ -1,0 +1,54 @@
+# V-JEPA 2.1 ViT-g/384 external video encoder. Activate via:
+#   model.video_backbone.from_scratch=true model.video_backbone.shift_video=12.0 model/video_backbone/encoder=vjepa21
+# from_scratch=true is REQUIRED (V-JEPA emits z_dim=1408 vs the native 48).
+# ViT structural fields are read from the weights' manifest.json, not yaml.
+
+name: vjepa21
+model_path: /path/to/vjepa21  # [Required] dir with manifest.json + the checkpoint file it names
+
+# Cond (frame-0) latent path; targets always use the video forward:
+#   video (default): dup frame 0 -> 2-frame clip through the video branch
+#   mixed (legacy):  frame 0 through the image branch
+vjepa21_forward: video
+
+# Optional frozen S-VAE feature reducer (raw embed_dim -> svae_target_dim, e.g. 48
+# to match the Wan VAE z_dim); train via scripts/svae_train/. Leave both null for the raw path.
+svae_path: null         # trained svae.pt (weights travel in the main checkpoint)
+svae_target_dim: null   # optional cross-check vs the S-VAE latent_dim
+
+# Average-pool target V-JEPA latents in time; false preserves every tubelet.
+use_avg_t_pooling: true
+
+# true: merge 2x2 latent neighbors per DiT token; false: one token per latent.
+use_wan_style_patch_grid: true
+
+# Number of two-frame history tubelets; 0 uses only the current observation.
+# H=1: [-4,0], H=2: [-12,-8,-4,0]; negative episode indices repeat frame 0.
+history_num_tubelets: 1
+
+# Two independent 224x224 camera encodes; width-packed latents use local RoPE
+# and a trainable view embedding in the Wan predictor. False keeps the L-shape.
+seperate_encode_view: false
+
+# false: shared original projection. true: independent direct clean-context
+# projection and bottleneck future projection; noise/output stay in JEPA space.
+add_input_bottleneck: false
+bottleneck_dim: 512  # positive integer; used only when add_input_bottleneck=true
+
+# Independent feature selection; last_layer preserves the pretrained output.
+# mean / mean_plus_global apply per-layer non-affine LN before averaging.
+# The global term pools H/W per latent time and camera, never time or views.
+# concat_before_bottleneck: both branches must use it, with input bottleneck on,
+# S-VAE off and REPA off. Concat follows fusion_layers order and includes the
+# true final block (pretrained LN); other blocks use LN0. feature_norm remains
+# per source. z_dim grows with source count; DiT token count stays unchanged.
+# adafuse: independent trainable channelwise layer weights on either/both sides.
+# LN0 per source (true final block retains pretrained LN first), weighted sum,
+# optional future temporal pool, then trainable LN. Requires >=2 layers, raw
+# JEPA and REPA off. Future target is detached; noisy-input gradients are live.
+condition_fusion_method: last_layer
+future_fusion_method: last_layer
+# Zero-based increasing block indices, or all_layers. Defaults target ViT-G;
+# ignored when both methods are last_layer. L needs a matching list or all_layers.
+# Concat examples for G: [29,39] (2 sources), [9,19,29,39] (4 sources).
+fusion_layers: [27, 29, 31, 33, 35, 37, 39]

@@ -1,0 +1,66 @@
+# Dual-System WAM: separate ActionDiT + video DiT.
+#   joint_cross_attn: video runs to completion; ActionDiT cross-attends its bridge features.
+#   joint_self_attn:  one mixed video/action self-attention per layer (MoT).
+#   idm:              teacher-forcing training + two-stage inference.
+
+defaults:
+  - video_backbone: wan22_ti2v_5b        # wan22_ti2v_5b | wan21_vace_1_3b | wan21_i2v_14b_480p | cosmos_predict25_2b | cosmos3_edge
+  - action_backbone: separate_action_dit # dual/tri only support ActionDiT
+  - _self_
+
+# Pretrained components kept frozen; entries missing on the active backbone are skipped.
+freeze:
+  - video_backbone.text_encoder
+  - video_backbone.reason1
+  - video_backbone.vae
+  - video_backbone.image_encoder
+  - video_backbone.video_encoder
+
+architecture:
+  framework: dual_system
+  variant: joint_self_attn   # joint_self_attn | joint_cross_attn | idm
+
+  # Network output parameterization; both streams retain velocity-space loss.
+  # x uses JiT's denominator floor 0.05; IDM currently supports v only.
+  video_prediction_type: v   # v | x
+  action_prediction_type: v  # v | x
+
+  action_scale: 1.0         # scale normalized actions and proprio; deploy divides actions back before unnormalization
+  action_dim: 80             # 80 = unified action space (unify_action=true); raw width otherwise (e.g. robotwin eef=20, joint=14)
+  use_proprioception: true   # true = dataloader must provide sample["proprio"], appended as one proprio token
+  state_dim: 80              # proprio width; required when use_proprioception=true
+
+  # Video<->action visibility (joint_self_attn only; idm locks action_sees_video):
+  #   mutual | action_sees_video | video_sees_action | isolated
+  attention_mask_mode: mutual
+  # Video<->video visibility: clean_condition_causal | per_frame_causal | bidirectional
+  video_attention_mask_mode: clean_condition_causal
+
+  # ActionDiT layer selection: explicit list, or null + bridge_interval (1 = every layer, 2 = every other).
+  # joint_cross_attn: which video layers feed the bridge; joint_self_attn/idm: sizes ActionDiT.
+  bridge_layers: null
+  bridge_interval: 1
+
+  mot_checkpoint_mixed_attn: true  # joint_self_attn/idm only: grad-checkpoint the mixed attention (VRAM down)
+  detach_bridge: false             # joint_cross_attn only
+  # E00+: optional final clean-visual action readout; no parameters when disabled.
+  action_router:
+    enabled: false
+    dim: 512
+    num_heads: 8
+    top_k: 32
+    gate_init: 0.01
+    sparse_weight: 0.01
+    warmup_steps: 1000
+    ramp_steps: 4000
+  idm_video_cond_noise_prob: 0.5   # idm only
+
+  # iREPA-inspired future alignment (Wan TI2V + V-JEPA, joint_self_attn).
+  # Main encoder fusion stays independent. Teacher uses the current future
+  # patch embedding under no_grad; student uses a per-view 3x3 Conv + cosine.
+  repa_enabled: false
+  repa_layer_depth: 9           # one-based student DiT block
+  repa_coeff: 0.05
+  repa_spatial_norm_gamma: 0.8  # (target - gamma * spatial_mean) / (spatial_std + 1e-6)
+  repa_target_fusion_method: last_layer  # last_layer | mean | mean_plus_global
+  repa_target_fusion_layers: [27, 29, 31, 33, 35, 37, 39]  # zero-based V-JEPA G indices or all_layers; ignored for last_layer

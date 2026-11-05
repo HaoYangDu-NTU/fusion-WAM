@@ -1,0 +1,31 @@
+id: E00-tri
+name: m29_rynn9b_vjepa21_tri
+source: OpenWAM_v2
+framework: tri_system
+asset: vjepa21_g
+
+# E00 visual contract is preserved: one clean latent, four future latents,
+# native V-JEPA 2.1 tubelets and 490 video tokens. The only architecture
+# change from E00 is dual_system -> tri_system with a frozen Qwen3-VL stream.
+geometry:
+  clean_latents: 1
+  future_latents: 4
+  channels: 1408
+  tokens: 490
+  temporal_design: native_video_tubelets
+
+overrides:
+  - model/video_backbone/encoder=vjepa21
+  - model.video_backbone.encoder.use_avg_t_pooling=false
+  - model.video_backbone.encoder.use_wan_style_patch_grid=true
+  - model.video_backbone.encoder.history_num_tubelets=1
+  - model.video_backbone.encoder.seperate_encode_view=true
+  - model.video_backbone.encoder.add_input_bottleneck=true
+  - model.video_backbone.encoder.bottleneck_dim=256
+  - model.video_backbone.encoder.condition_fusion_method=last_layer
+  - model.video_backbone.encoder.future_fusion_method=last_layer
+  # Set OPENWAM_QWEN3_VL_PATH to the local Qwen3-VL-2B-Instruct directory.
+  - model.vlm_backbone.checkpoint_path=${oc.env:OPENWAM_QWEN3_VL_PATH,/data/fcy/model/Qwen3-VL-2B-Instruct}
+  - model.vlm_backbone.load_pretrained=true
+
+freeze_visual: video_backbone.video_encoder

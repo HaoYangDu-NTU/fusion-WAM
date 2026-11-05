@@ -1,0 +1,14 @@
+[
+  {
+    "path": "reports/E05_training/automatic_evaluation/evaluation/job.json",
+    "original": "b4bae77c6aea5a08253fa3a302e74c02d35fafc78d6af40813100bf545d7c146",
+    "migrated": "e3439c67533aee358d6eb78cfed3b4a2a4f7587cfcd505f0f7265f4626ebb4db",
+    "reason": "Only old workspace path prefixes changed in saved config; original config and job metadata archived"
+  },
+  {
+    "path": "reports/E06_training/automatic_evaluation/evaluation/job.json",
+    "original": "7af8367d6fdd5ea67ac5b73ea24f473c82a5d2f7b6dfce0d3a7642be72c0b825",
+    "migrated": "f7f4c00fba6a354c175e4079b7e5e8538074a8216fe5b1f3ce93247454373172",
+    "reason": "Only old workspace path prefixes changed in saved config; original config and job metadata archived"
+  }
+]

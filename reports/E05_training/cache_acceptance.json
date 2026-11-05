@@ -1,0 +1,476 @@
+{
+  "passed": true,
+  "frames": 273465,
+  "identity_hash": "42cef0833a2db450baabadd0cdc30393fb0f8308bc38397476925e631b59cfb0",
+  "cache_namespace": "/data/fcy/code/openwam-exp/cache/vggt_omega_libero_stereo/e1c3b188179aadd2f71db5f2d8823eeff38b6e813ddb86b7aa3620845ad3382b",
+  "ranks": [
+    {
+      "rank": 0,
+      "world_size": 4,
+      "processed": 68367,
+      "expected": 68367,
+      "total_frames": 273465,
+      "full_cache": true,
+      "elapsed_seconds": 242.26477801520377,
+      "frames_per_second": 27.80572183221052,
+      "reused_index_frames": 62208,
+      "estimated_remaining_seconds": 0.0,
+      "hits": 62277,
+      "misses": 6090,
+      "verified": [
+        {
+          "index": 0,
+          "bitwise_equal": true
+        },
+        {
+          "index": 4,
+          "bitwise_equal": true
+        },
+        {
+          "index": 8,
+          "bitwise_equal": true
+        },
+        {
+          "index": 12,
+          "bitwise_equal": true
+        }
+      ],
+      "identity_hash": "42cef0833a2db450baabadd0cdc30393fb0f8308bc38397476925e631b59cfb0",
+      "cache_namespace": "/data/fcy/code/openwam-exp/cache/vggt_omega_libero_stereo/e1c3b188179aadd2f71db5f2d8823eeff38b6e813ddb86b7aa3620845ad3382b",
+      "gpu_peak_gib": 1.757558822631836,
+      "local_writes_complete": true,
+      "complete": true,
+      "identity": {
+        "dataloader": {
+          "type": "libero",
+          "latent_cache_dir": null,
+          "dataset_dir": "/data/fcy/code/OpenWAM/data/libero",
+          "action_mode": "eef",
+          "unify_action": true,
+          "unify_action_map": [
+            "0-9"
+          ],
+          "unify_state_map": null,
+          "num_frames": 33,
+          "video_stride": 4,
+          "clean_condition_frame_offsets": null,
+          "window_stride": 1,
+          "split": "train",
+          "height": 384,
+          "width": 320,
+          "multiview": true,
+          "camera_layout": [
+            "observation.images.image",
+            "observation.images.image2",
+            null
+          ],
+          "target_camera": "observation.images.image",
+          "normalize_mode": "min-max",
+          "color_jitter": {
+            "enabled": false,
+            "brightness": 0.2,
+            "contrast": 0.2,
+            "saturation": 0.2,
+            "hue": 0.0
+          },
+          "history_num_tubelets": 1,
+          "seperate_encode_view": true
+        },
+        "windows": 273465,
+        "feature_cache_identity": {
+          "schema": 1,
+          "checkpoint_sha256": "c02da418b18bb01d0392598d3f6147366bcde1bb70fd08a5e3bf7925b0667934",
+          "processing": {
+            "joint_views_per_timestamp": true,
+            "cross_time_encoding": false,
+            "add_one_history_context": true,
+            "spatial_patch_size": 2,
+            "image_size": 224,
+            "view_order": [
+              "front",
+              "wrist"
+            ],
+            "output_layout": "width_concat",
+            "pair_microbatch_size": 1,
+            "bottleneck_dim": 256,
+            "feature_norm_eps": 1e-05,
+            "output": "final_spatial_patches_only",
+            "input_range": "0_1_native_normalization"
+          },
+          "normalization": "native_imagenet_once_then_frozen_nonaffine_layernorm",
+          "context": "ordered_front_wrist_at_same_timestamp_only",
+          "key": "exact_preprocessed_rgb_content_shape_dtype"
+        },
+        "layout_checks": [
+          0,
+          64,
+          68,
+          273464
+        ]
+      },
+      "window_verified": [
+        {
+          "index": 64,
+          "bitwise_equal": true,
+          "all_cache_hits": true
+        },
+        {
+          "index": 273464,
+          "bitwise_equal": true,
+          "all_cache_hits": true
+        }
+      ]
+    },
+    {
+      "rank": 1,
+      "world_size": 4,
+      "processed": 68366,
+      "expected": 68366,
+      "total_frames": 273465,
+      "full_cache": true,
+      "elapsed_seconds": 242.59758795890957,
+      "frames_per_second": 25.487485907608576,
+      "reused_index_frames": 62208,
+      "estimated_remaining_seconds": 0.0,
+      "hits": 62319,
+      "misses": 6047,
+      "verified": [
+        {
+          "index": 1,
+          "bitwise_equal": true
+        },
+        {
+          "index": 5,
+          "bitwise_equal": true
+        },
+        {
+          "index": 9,
+          "bitwise_equal": true
+        },
+        {
+          "index": 13,
+          "bitwise_equal": true
+        }
+      ],
+      "identity_hash": "42cef0833a2db450baabadd0cdc30393fb0f8308bc38397476925e631b59cfb0",
+      "cache_namespace": "/data/fcy/code/openwam-exp/cache/vggt_omega_libero_stereo/e1c3b188179aadd2f71db5f2d8823eeff38b6e813ddb86b7aa3620845ad3382b",
+      "gpu_peak_gib": 1.757558822631836,
+      "local_writes_complete": true,
+      "complete": true,
+      "identity": {
+        "dataloader": {
+          "type": "libero",
+          "latent_cache_dir": null,
+          "dataset_dir": "/data/fcy/code/OpenWAM/data/libero",
+          "action_mode": "eef",
+          "unify_action": true,
+          "unify_action_map": [
+            "0-9"
+          ],
+          "unify_state_map": null,
+          "num_frames": 33,
+          "video_stride": 4,
+          "clean_condition_frame_offsets": null,
+          "window_stride": 1,
+          "split": "train",
+          "height": 384,
+          "width": 320,
+          "multiview": true,
+          "camera_layout": [
+            "observation.images.image",
+            "observation.images.image2",
+            null
+          ],
+          "target_camera": "observation.images.image",
+          "normalize_mode": "min-max",
+          "color_jitter": {
+            "enabled": false,
+            "brightness": 0.2,
+            "contrast": 0.2,
+            "saturation": 0.2,
+            "hue": 0.0
+          },
+          "history_num_tubelets": 1,
+          "seperate_encode_view": true
+        },
+        "windows": 273465,
+        "feature_cache_identity": {
+          "schema": 1,
+          "checkpoint_sha256": "c02da418b18bb01d0392598d3f6147366bcde1bb70fd08a5e3bf7925b0667934",
+          "processing": {
+            "joint_views_per_timestamp": true,
+            "cross_time_encoding": false,
+            "add_one_history_context": true,
+            "spatial_patch_size": 2,
+            "image_size": 224,
+            "view_order": [
+              "front",
+              "wrist"
+            ],
+            "output_layout": "width_concat",
+            "pair_microbatch_size": 1,
+            "bottleneck_dim": 256,
+            "feature_norm_eps": 1e-05,
+            "output": "final_spatial_patches_only",
+            "input_range": "0_1_native_normalization"
+          },
+          "normalization": "native_imagenet_once_then_frozen_nonaffine_layernorm",
+          "context": "ordered_front_wrist_at_same_timestamp_only",
+          "key": "exact_preprocessed_rgb_content_shape_dtype"
+        },
+        "layout_checks": [
+          0,
+          64,
+          68,
+          273464
+        ]
+      },
+      "window_verified": [
+        {
+          "index": 65,
+          "bitwise_equal": true,
+          "all_cache_hits": true
+        },
+        {
+          "index": 273463,
+          "bitwise_equal": true,
+          "all_cache_hits": true
+        }
+      ]
+    },
+    {
+      "rank": 2,
+      "world_size": 4,
+      "processed": 68366,
+      "expected": 68366,
+      "total_frames": 273465,
+      "full_cache": true,
+      "elapsed_seconds": 242.39029686525464,
+      "frames_per_second": 25.919929766430844,
+      "reused_index_frames": 62720,
+      "estimated_remaining_seconds": 0.0,
+      "hits": 62845,
+      "misses": 5521,
+      "verified": [
+        {
+          "index": 2,
+          "bitwise_equal": true
+        },
+        {
+          "index": 6,
+          "bitwise_equal": true
+        },
+        {
+          "index": 10,
+          "bitwise_equal": true
+        },
+        {
+          "index": 14,
+          "bitwise_equal": true
+        }
+      ],
+      "identity_hash": "42cef0833a2db450baabadd0cdc30393fb0f8308bc38397476925e631b59cfb0",
+      "cache_namespace": "/data/fcy/code/openwam-exp/cache/vggt_omega_libero_stereo/e1c3b188179aadd2f71db5f2d8823eeff38b6e813ddb86b7aa3620845ad3382b",
+      "gpu_peak_gib": 1.757558822631836,
+      "local_writes_complete": true,
+      "complete": true,
+      "identity": {
+        "dataloader": {
+          "type": "libero",
+          "latent_cache_dir": null,
+          "dataset_dir": "/data/fcy/code/OpenWAM/data/libero",
+          "action_mode": "eef",
+          "unify_action": true,
+          "unify_action_map": [
+            "0-9"
+          ],
+          "unify_state_map": null,
+          "num_frames": 33,
+          "video_stride": 4,
+          "clean_condition_frame_offsets": null,
+          "window_stride": 1,
+          "split": "train",
+          "height": 384,
+          "width": 320,
+          "multiview": true,
+          "camera_layout": [
+            "observation.images.image",
+            "observation.images.image2",
+            null
+          ],
+          "target_camera": "observation.images.image",
+          "normalize_mode": "min-max",
+          "color_jitter": {
+            "enabled": false,
+            "brightness": 0.2,
+            "contrast": 0.2,
+            "saturation": 0.2,
+            "hue": 0.0
+          },
+          "history_num_tubelets": 1,
+          "seperate_encode_view": true
+        },
+        "windows": 273465,
+        "feature_cache_identity": {
+          "schema": 1,
+          "checkpoint_sha256": "c02da418b18bb01d0392598d3f6147366bcde1bb70fd08a5e3bf7925b0667934",
+          "processing": {
+            "joint_views_per_timestamp": true,
+            "cross_time_encoding": false,
+            "add_one_history_context": true,
+            "spatial_patch_size": 2,
+            "image_size": 224,
+            "view_order": [
+              "front",
+              "wrist"
+            ],
+            "output_layout": "width_concat",
+            "pair_microbatch_size": 1,
+            "bottleneck_dim": 256,
+            "feature_norm_eps": 1e-05,
+            "output": "final_spatial_patches_only",
+            "input_range": "0_1_native_normalization"
+          },
+          "normalization": "native_imagenet_once_then_frozen_nonaffine_layernorm",
+          "context": "ordered_front_wrist_at_same_timestamp_only",
+          "key": "exact_preprocessed_rgb_content_shape_dtype"
+        },
+        "layout_checks": [
+          0,
+          64,
+          68,
+          273464
+        ]
+      },
+      "window_verified": [
+        {
+          "index": 66,
+          "bitwise_equal": true,
+          "all_cache_hits": true
+        },
+        {
+          "index": 273462,
+          "bitwise_equal": true,
+          "all_cache_hits": true
+        }
+      ]
+    },
+    {
+      "rank": 3,
+      "world_size": 4,
+      "processed": 68366,
+      "expected": 68366,
+      "total_frames": 273465,
+      "full_cache": true,
+      "elapsed_seconds": 238.09391645388678,
+      "frames_per_second": 0.0,
+      "reused_index_frames": 68366,
+      "estimated_remaining_seconds": 0.0,
+      "hits": 68366,
+      "misses": 0,
+      "verified": [
+        {
+          "index": 3,
+          "bitwise_equal": true
+        },
+        {
+          "index": 7,
+          "bitwise_equal": true
+        },
+        {
+          "index": 11,
+          "bitwise_equal": true
+        },
+        {
+          "index": 15,
+          "bitwise_equal": true
+        }
+      ],
+      "identity_hash": "42cef0833a2db450baabadd0cdc30393fb0f8308bc38397476925e631b59cfb0",
+      "cache_namespace": "/data/fcy/code/openwam-exp/cache/vggt_omega_libero_stereo/e1c3b188179aadd2f71db5f2d8823eeff38b6e813ddb86b7aa3620845ad3382b",
+      "gpu_peak_gib": 1.6921005249023438,
+      "local_writes_complete": true,
+      "complete": true,
+      "identity": {
+        "dataloader": {
+          "type": "libero",
+          "latent_cache_dir": null,
+          "dataset_dir": "/data/fcy/code/OpenWAM/data/libero",
+          "action_mode": "eef",
+          "unify_action": true,
+          "unify_action_map": [
+            "0-9"
+          ],
+          "unify_state_map": null,
+          "num_frames": 33,
+          "video_stride": 4,
+          "clean_condition_frame_offsets": null,
+          "window_stride": 1,
+          "split": "train",
+          "height": 384,
+          "width": 320,
+          "multiview": true,
+          "camera_layout": [
+            "observation.images.image",
+            "observation.images.image2",
+            null
+          ],
+          "target_camera": "observation.images.image",
+          "normalize_mode": "min-max",
+          "color_jitter": {
+            "enabled": false,
+            "brightness": 0.2,
+            "contrast": 0.2,
+            "saturation": 0.2,
+            "hue": 0.0
+          },
+          "history_num_tubelets": 1,
+          "seperate_encode_view": true
+        },
+        "windows": 273465,
+        "feature_cache_identity": {
+          "schema": 1,
+          "checkpoint_sha256": "c02da418b18bb01d0392598d3f6147366bcde1bb70fd08a5e3bf7925b0667934",
+          "processing": {
+            "joint_views_per_timestamp": true,
+            "cross_time_encoding": false,
+            "add_one_history_context": true,
+            "spatial_patch_size": 2,
+            "image_size": 224,
+            "view_order": [
+              "front",
+              "wrist"
+            ],
+            "output_layout": "width_concat",
+            "pair_microbatch_size": 1,
+            "bottleneck_dim": 256,
+            "feature_norm_eps": 1e-05,
+            "output": "final_spatial_patches_only",
+            "input_range": "0_1_native_normalization"
+          },
+          "normalization": "native_imagenet_once_then_frozen_nonaffine_layernorm",
+          "context": "ordered_front_wrist_at_same_timestamp_only",
+          "key": "exact_preprocessed_rgb_content_shape_dtype"
+        },
+        "layout_checks": [
+          0,
+          64,
+          68,
+          273464
+        ]
+      },
+      "window_verified": [
+        {
+          "index": 67,
+          "bitwise_equal": true,
+          "all_cache_hits": true
+        },
+        {
+          "index": 273461,
+          "bitwise_equal": true,
+          "all_cache_hits": true
+        }
+      ]
+    }
+  ]
+}

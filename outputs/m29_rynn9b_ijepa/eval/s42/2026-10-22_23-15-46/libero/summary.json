@@ -1,0 +1,44 @@
+{
+  "smoke": false,
+  "selected_run_complete": true,
+  "suites": [
+    {
+      "suite": "libero_spatial",
+      "valid_trials": 500,
+      "expected_trials": 500,
+      "successes": 475,
+      "errors": 0,
+      "complete": true,
+      "success_rate": 0.95
+    },
+    {
+      "suite": "libero_object",
+      "valid_trials": 500,
+      "expected_trials": 500,
+      "successes": 493,
+      "errors": 0,
+      "complete": true,
+      "success_rate": 0.986
+    },
+    {
+      "suite": "libero_goal",
+      "valid_trials": 500,
+      "expected_trials": 500,
+      "successes": 485,
+      "errors": 0,
+      "complete": true,
+      "success_rate": 0.97
+    },
+    {
+      "suite": "libero_10",
+      "valid_trials": 500,
+      "expected_trials": 500,
+      "successes": 402,
+      "errors": 0,
+      "complete": true,
+      "success_rate": 0.804
+    }
+  ],
+  "complete": true,
+  "total_average_success_rate": 0.9275
+}

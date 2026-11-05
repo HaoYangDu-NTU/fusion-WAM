@@ -1,0 +1,16 @@
+id: E05
+name: m29_rynn9b_vggt_omega_spatial
+source: facebook/VGGT-Omega/vggt_omega_1b_512.pt
+asset: vggt_omega_512
+geometry:
+  clean_latents: 2
+  future_latents: 8
+  channels: 2048
+  tokens: 980
+  temporal_design: history_current_plus_8_future_joint_stereo_per_timestamp
+overrides:
+  - model/video_backbone/encoder=vggt_omega
+freeze_visual: video_backbone.video_encoder
+data_overrides:
+  history_num_tubelets: 1
+  clean_condition_frame_offsets: null

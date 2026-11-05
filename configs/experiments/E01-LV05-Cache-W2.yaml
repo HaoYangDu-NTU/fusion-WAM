@@ -1,0 +1,10 @@
+id: E01-LV05-Cache-W2
+name: m29_rynn9b_dinov3_e01_lv05_frame_cache_w2
+base_experiment: E01-Cache
+report_future_quality: true
+worker_threads: 2
+policy_overrides:
+  model.architecture.video_prediction_type: x
+  model.architecture.action_prediction_type: x
+  model.video_backbone.shift_video: 42
+  training.lambda_video: 0.5

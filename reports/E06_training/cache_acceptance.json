@@ -1,0 +1,472 @@
+{
+  "passed": true,
+  "frames": 273465,
+  "identity_hash": "40aa2b80f234368b41c21763c32212a138bb2c3cd2e66e1d4c2fecfe2aaf4eea",
+  "cache_namespace": "/data/fcy/code/openwam-exp/cache/flux2_libero_frames/c4420f13d9065b03f2576724e87db4027ac2884c8f5b4792e670ebc7faf8df55",
+  "ranks": [
+    {
+      "rank": 0,
+      "world_size": 4,
+      "processed": 68367,
+      "expected": 68367,
+      "total_frames": 273465,
+      "full_cache": true,
+      "elapsed_seconds": 1145.81263622595,
+      "frames_per_second": 59.70327055723022,
+      "reused_index_frames": 0,
+      "estimated_remaining_seconds": 0.0,
+      "hits": 33,
+      "misses": 68334,
+      "verified": [
+        {
+          "index": 0,
+          "bitwise_equal": true
+        },
+        {
+          "index": 4,
+          "bitwise_equal": true
+        },
+        {
+          "index": 8,
+          "bitwise_equal": true
+        },
+        {
+          "index": 12,
+          "bitwise_equal": true
+        }
+      ],
+      "identity_hash": "40aa2b80f234368b41c21763c32212a138bb2c3cd2e66e1d4c2fecfe2aaf4eea",
+      "cache_namespace": "/data/fcy/code/openwam-exp/cache/flux2_libero_frames/c4420f13d9065b03f2576724e87db4027ac2884c8f5b4792e670ebc7faf8df55",
+      "gpu_peak_gib": 1.2263002395629883,
+      "local_writes_complete": true,
+      "complete": true,
+      "identity": {
+        "dataloader": {
+          "type": "libero",
+          "latent_cache_dir": null,
+          "dataset_dir": "/data/fcy/code/OpenWAM/data/libero",
+          "action_mode": "eef",
+          "unify_action": true,
+          "unify_action_map": [
+            "0-9"
+          ],
+          "unify_state_map": null,
+          "num_frames": 33,
+          "video_stride": 4,
+          "clean_condition_frame_offsets": null,
+          "window_stride": 1,
+          "split": "train",
+          "height": 384,
+          "width": 320,
+          "multiview": true,
+          "camera_layout": [
+            "observation.images.image",
+            "observation.images.image2",
+            null
+          ],
+          "target_camera": "observation.images.image",
+          "normalize_mode": "min-max",
+          "color_jitter": {
+            "enabled": false,
+            "brightness": 0.2,
+            "contrast": 0.2,
+            "saturation": 0.2,
+            "hue": 0.0
+          },
+          "history_num_tubelets": 1,
+          "seperate_encode_view": true
+        },
+        "windows": 273465,
+        "feature_cache_identity": {
+          "schema": 1,
+          "checkpoint_sha256": "d03fa09ffe4e618a172cc0ba1c393d63c4517737b0182b29c52830c9c60eb2ef",
+          "processing": {
+            "image_size": 224,
+            "view_order": [
+              "front",
+              "wrist"
+            ],
+            "output_layout": "width_concat",
+            "cross_time_encoding": false,
+            "joint_views_per_timestamp": false,
+            "add_one_history_context": true,
+            "temporal_pooling": false,
+            "posterior": "mean",
+            "normalization": "native_packing_then_fixed_bn",
+            "input_range": "minus1_plus1_bf16",
+            "encode_batch_size": 16,
+            "bottleneck_dim": 256
+          },
+          "context": "independent_front_and_wrist_images_at_one_timestamp",
+          "key": "exact_preprocessed_rgb_content_shape_dtype"
+        },
+        "layout_checks": [
+          0,
+          64,
+          68,
+          273464
+        ]
+      },
+      "window_verified": [
+        {
+          "index": 64,
+          "bitwise_equal": true,
+          "all_cache_hits": true
+        },
+        {
+          "index": 273464,
+          "bitwise_equal": true,
+          "all_cache_hits": true
+        }
+      ]
+    },
+    {
+      "rank": 1,
+      "world_size": 4,
+      "processed": 68366,
+      "expected": 68366,
+      "total_frames": 273465,
+      "full_cache": true,
+      "elapsed_seconds": 1145.991875512991,
+      "frames_per_second": 59.84712945260267,
+      "reused_index_frames": 0,
+      "estimated_remaining_seconds": 0.0,
+      "hits": 5,
+      "misses": 68361,
+      "verified": [
+        {
+          "index": 1,
+          "bitwise_equal": true
+        },
+        {
+          "index": 5,
+          "bitwise_equal": true
+        },
+        {
+          "index": 9,
+          "bitwise_equal": true
+        },
+        {
+          "index": 13,
+          "bitwise_equal": true
+        }
+      ],
+      "identity_hash": "40aa2b80f234368b41c21763c32212a138bb2c3cd2e66e1d4c2fecfe2aaf4eea",
+      "cache_namespace": "/data/fcy/code/openwam-exp/cache/flux2_libero_frames/c4420f13d9065b03f2576724e87db4027ac2884c8f5b4792e670ebc7faf8df55",
+      "gpu_peak_gib": 1.2263002395629883,
+      "local_writes_complete": true,
+      "complete": true,
+      "identity": {
+        "dataloader": {
+          "type": "libero",
+          "latent_cache_dir": null,
+          "dataset_dir": "/data/fcy/code/OpenWAM/data/libero",
+          "action_mode": "eef",
+          "unify_action": true,
+          "unify_action_map": [
+            "0-9"
+          ],
+          "unify_state_map": null,
+          "num_frames": 33,
+          "video_stride": 4,
+          "clean_condition_frame_offsets": null,
+          "window_stride": 1,
+          "split": "train",
+          "height": 384,
+          "width": 320,
+          "multiview": true,
+          "camera_layout": [
+            "observation.images.image",
+            "observation.images.image2",
+            null
+          ],
+          "target_camera": "observation.images.image",
+          "normalize_mode": "min-max",
+          "color_jitter": {
+            "enabled": false,
+            "brightness": 0.2,
+            "contrast": 0.2,
+            "saturation": 0.2,
+            "hue": 0.0
+          },
+          "history_num_tubelets": 1,
+          "seperate_encode_view": true
+        },
+        "windows": 273465,
+        "feature_cache_identity": {
+          "schema": 1,
+          "checkpoint_sha256": "d03fa09ffe4e618a172cc0ba1c393d63c4517737b0182b29c52830c9c60eb2ef",
+          "processing": {
+            "image_size": 224,
+            "view_order": [
+              "front",
+              "wrist"
+            ],
+            "output_layout": "width_concat",
+            "cross_time_encoding": false,
+            "joint_views_per_timestamp": false,
+            "add_one_history_context": true,
+            "temporal_pooling": false,
+            "posterior": "mean",
+            "normalization": "native_packing_then_fixed_bn",
+            "input_range": "minus1_plus1_bf16",
+            "encode_batch_size": 16,
+            "bottleneck_dim": 256
+          },
+          "context": "independent_front_and_wrist_images_at_one_timestamp",
+          "key": "exact_preprocessed_rgb_content_shape_dtype"
+        },
+        "layout_checks": [
+          0,
+          64,
+          68,
+          273464
+        ]
+      },
+      "window_verified": [
+        {
+          "index": 65,
+          "bitwise_equal": true,
+          "all_cache_hits": true
+        },
+        {
+          "index": 273463,
+          "bitwise_equal": true,
+          "all_cache_hits": true
+        }
+      ]
+    },
+    {
+      "rank": 2,
+      "world_size": 4,
+      "processed": 68366,
+      "expected": 68366,
+      "total_frames": 273465,
+      "full_cache": true,
+      "elapsed_seconds": 1146.036756674759,
+      "frames_per_second": 59.69506724865711,
+      "reused_index_frames": 0,
+      "estimated_remaining_seconds": 0.0,
+      "hits": 37,
+      "misses": 68329,
+      "verified": [
+        {
+          "index": 2,
+          "bitwise_equal": true
+        },
+        {
+          "index": 6,
+          "bitwise_equal": true
+        },
+        {
+          "index": 10,
+          "bitwise_equal": true
+        },
+        {
+          "index": 14,
+          "bitwise_equal": true
+        }
+      ],
+      "identity_hash": "40aa2b80f234368b41c21763c32212a138bb2c3cd2e66e1d4c2fecfe2aaf4eea",
+      "cache_namespace": "/data/fcy/code/openwam-exp/cache/flux2_libero_frames/c4420f13d9065b03f2576724e87db4027ac2884c8f5b4792e670ebc7faf8df55",
+      "gpu_peak_gib": 1.2263002395629883,
+      "local_writes_complete": true,
+      "complete": true,
+      "identity": {
+        "dataloader": {
+          "type": "libero",
+          "latent_cache_dir": null,
+          "dataset_dir": "/data/fcy/code/OpenWAM/data/libero",
+          "action_mode": "eef",
+          "unify_action": true,
+          "unify_action_map": [
+            "0-9"
+          ],
+          "unify_state_map": null,
+          "num_frames": 33,
+          "video_stride": 4,
+          "clean_condition_frame_offsets": null,
+          "window_stride": 1,
+          "split": "train",
+          "height": 384,
+          "width": 320,
+          "multiview": true,
+          "camera_layout": [
+            "observation.images.image",
+            "observation.images.image2",
+            null
+          ],
+          "target_camera": "observation.images.image",
+          "normalize_mode": "min-max",
+          "color_jitter": {
+            "enabled": false,
+            "brightness": 0.2,
+            "contrast": 0.2,
+            "saturation": 0.2,
+            "hue": 0.0
+          },
+          "history_num_tubelets": 1,
+          "seperate_encode_view": true
+        },
+        "windows": 273465,
+        "feature_cache_identity": {
+          "schema": 1,
+          "checkpoint_sha256": "d03fa09ffe4e618a172cc0ba1c393d63c4517737b0182b29c52830c9c60eb2ef",
+          "processing": {
+            "image_size": 224,
+            "view_order": [
+              "front",
+              "wrist"
+            ],
+            "output_layout": "width_concat",
+            "cross_time_encoding": false,
+            "joint_views_per_timestamp": false,
+            "add_one_history_context": true,
+            "temporal_pooling": false,
+            "posterior": "mean",
+            "normalization": "native_packing_then_fixed_bn",
+            "input_range": "minus1_plus1_bf16",
+            "encode_batch_size": 16,
+            "bottleneck_dim": 256
+          },
+          "context": "independent_front_and_wrist_images_at_one_timestamp",
+          "key": "exact_preprocessed_rgb_content_shape_dtype"
+        },
+        "layout_checks": [
+          0,
+          64,
+          68,
+          273464
+        ]
+      },
+      "window_verified": [
+        {
+          "index": 66,
+          "bitwise_equal": true,
+          "all_cache_hits": true
+        },
+        {
+          "index": 273462,
+          "bitwise_equal": true,
+          "all_cache_hits": true
+        }
+      ]
+    },
+    {
+      "rank": 3,
+      "world_size": 4,
+      "processed": 68366,
+      "expected": 68366,
+      "total_frames": 273465,
+      "full_cache": true,
+      "elapsed_seconds": 1146.0494493017904,
+      "frames_per_second": 60.07061727589204,
+      "reused_index_frames": 0,
+      "estimated_remaining_seconds": 0.0,
+      "hits": 0,
+      "misses": 68366,
+      "verified": [
+        {
+          "index": 3,
+          "bitwise_equal": true
+        },
+        {
+          "index": 7,
+          "bitwise_equal": true
+        },
+        {
+          "index": 11,
+          "bitwise_equal": true
+        },
+        {
+          "index": 15,
+          "bitwise_equal": true
+        }
+      ],
+      "identity_hash": "40aa2b80f234368b41c21763c32212a138bb2c3cd2e66e1d4c2fecfe2aaf4eea",
+      "cache_namespace": "/data/fcy/code/openwam-exp/cache/flux2_libero_frames/c4420f13d9065b03f2576724e87db4027ac2884c8f5b4792e670ebc7faf8df55",
+      "gpu_peak_gib": 1.2263002395629883,
+      "local_writes_complete": true,
+      "complete": true,
+      "identity": {
+        "dataloader": {
+          "type": "libero",
+          "latent_cache_dir": null,
+          "dataset_dir": "/data/fcy/code/OpenWAM/data/libero",
+          "action_mode": "eef",
+          "unify_action": true,
+          "unify_action_map": [
+            "0-9"
+          ],
+          "unify_state_map": null,
+          "num_frames": 33,
+          "video_stride": 4,
+          "clean_condition_frame_offsets": null,
+          "window_stride": 1,
+          "split": "train",
+          "height": 384,
+          "width": 320,
+          "multiview": true,
+          "camera_layout": [
+            "observation.images.image",
+            "observation.images.image2",
+            null
+          ],
+          "target_camera": "observation.images.image",
+          "normalize_mode": "min-max",
+          "color_jitter": {
+            "enabled": false,
+            "brightness": 0.2,
+            "contrast": 0.2,
+            "saturation": 0.2,
+            "hue": 0.0
+          },
+          "history_num_tubelets": 1,
+          "seperate_encode_view": true
+        },
+        "windows": 273465,
+        "feature_cache_identity": {
+          "schema": 1,
+          "checkpoint_sha256": "d03fa09ffe4e618a172cc0ba1c393d63c4517737b0182b29c52830c9c60eb2ef",
+          "processing": {
+            "image_size": 224,
+            "view_order": [
+              "front",
+              "wrist"
+            ],
+            "output_layout": "width_concat",
+            "cross_time_encoding": false,
+            "joint_views_per_timestamp": false,
+            "add_one_history_context": true,
+            "temporal_pooling": false,
+            "posterior": "mean",
+            "normalization": "native_packing_then_fixed_bn",
+            "input_range": "minus1_plus1_bf16",
+            "encode_batch_size": 16,
+            "bottleneck_dim": 256
+          },
+          "context": "independent_front_and_wrist_images_at_one_timestamp",
+          "key": "exact_preprocessed_rgb_content_shape_dtype"
+        },
+        "layout_checks": [
+          0,
+          64,
+          68,
+          273464
+        ]
+      },
+      "window_verified": [
+        {
+          "index": 67,
+          "bitwise_equal": true,
+          "all_cache_hits": true
+        },
+        {
+          "index": 273461,
+          "bitwise_equal": true,
+          "all_cache_hits": true
+        }
+      ]
+    }
+  ]
+}

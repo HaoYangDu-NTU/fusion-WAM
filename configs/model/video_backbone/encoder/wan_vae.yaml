@@ -1,0 +1,8 @@
+name: wan_vae
+model_path: /data/fcy/code/openwam-exp/encoder/wan21-vae
+vae_version: '2.1'
+microbatch_size: 1
+bottleneck_dim: 256
+spatial_patch_size: 2
+seperate_encode_view: true
+add_input_bottleneck: true

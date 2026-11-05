@@ -1,0 +1,6 @@
+name: siglip
+model_path: /path/to/siglip/vision_encoder
+seperate_encode_view: true
+add_one_history_context: true
+bottleneck_dim: 256
+feature_norm_eps: 1e-5

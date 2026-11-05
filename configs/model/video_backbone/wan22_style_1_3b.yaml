@@ -1,0 +1,24 @@
+# Controlled width ablation of Wan2.2-TI2V-5B, trained from scratch.
+# Keep depth, head dimension, conditioning and encoder processing unchanged.
+defaults:
+  - wan22_ti2v_5b
+  - _self_
+
+name: wan22_style_1_3b
+from_scratch: true
+
+# Same WanModel constructor as Wan2.2; halve only dim / FFN / head count.
+# Encoder latent channels and patch size are supplied by the existing adapter.
+dit_config:
+  dim: 1536
+  ffn_dim: 7168
+  num_heads: 12
+  num_layers: 30
+  text_dim: 4096
+  freq_dim: 256
+  eps: 1.0e-6
+  has_image_input: false
+  seperated_timestep: true
+  require_vae_embedding: false
+  require_clip_embedding: false
+  fuse_vae_embedding_in_latents: true

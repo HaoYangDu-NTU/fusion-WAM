@@ -1,0 +1,58 @@
+# Local model assets, datasets and experiment payloads
+/encoder/
+/cache/
+/outputs/
+/reports/
+/assets/pretrained/
+/vlaharness_tmp
+/data/
+/wandb/
+/weights/
+
+# Independent checkouts used locally; not part of this source repository.
+/RoboScope-Kit/
+/genfirst/
+
+# Machine-specific rendering libraries; install these on the evaluation host.
+/third_party/osmesa/
+/third_party/vpp2/
+
+# Python and build artifacts
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+*.egg-info/
+build/
+dist/
+.DS_Store
+.ipynb_checkpoints/
+
+# Weights, optimizer states, recordings and local archives
+*.safetensors
+*.pt
+*.pth
+*.ckpt
+*.onnx
+*.bin
+*.so
+*.so.*
+*.sqlite
+*.sqlite-*
+*.mp4
+*.avi
+*.tar
+*.tar.gz
+*.zip
+*.log
+
+# Local credentials and editor files
+.env
+.env.*
+*.pem
+*.key
+.vscode/
+.idea/

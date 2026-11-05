@@ -1,0 +1,12 @@
+name: vggt_omega
+model_path: /data/fcy/code/openwam-exp/encoder/vggt-omega
+checkpoint: vggt_omega_1b_512.pt
+pair_microbatch_size: 1
+bottleneck_dim: 256
+feature_norm_eps: 1.0e-5
+seperate_encode_view: true
+add_one_history_context: true
+add_input_bottleneck: true
+image_size: 224
+# Optional per-timestamp frozen feature cache. Null always encodes online.
+feature_cache_dir: /data/fcy/code/openwam-exp/cache/vggt_omega_libero_stereo

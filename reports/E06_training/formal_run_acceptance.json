@@ -1,0 +1,13 @@
+{
+  "passed": true,
+  "run": "/data/fcy/code/openwam-exp/outputs/m29_rynn9b_flux2_vae/train/s42/2026-10-28_10-09-17",
+  "from_scratch": true,
+  "global_batch": 256,
+  "total_steps": 10690,
+  "seed": 42,
+  "cache_complete": true,
+  "gpu_smoke_passed": true,
+  "strict_reload_passed": true,
+  "eval_interfaces_dryrun_passed": true,
+  "verified_at": 1793153427.3568923
+}

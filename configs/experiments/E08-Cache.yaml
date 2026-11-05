@@ -1,0 +1,7 @@
+id: E08-Cache
+name: m29_rynn9b_siglip_l_frame_cache
+base_experiment: E08
+data_overrides:
+  type: libero_native_stereo
+  native_view_size: 256
+  frame_feature_cache_dir: /data/fcy/code/openwam-exp/cache/siglip_l_libero_frames

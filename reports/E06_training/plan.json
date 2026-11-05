@@ -1,0 +1,25 @@
+{
+  "encoder": "official FLUX.2-klein-4B VAE component, BF16, encoder-only",
+  "temporal_offsets": [
+    -4,
+    0,
+    4,
+    8,
+    12,
+    16,
+    20,
+    24,
+    28,
+    32
+  ],
+  "clean": 2,
+  "future": 8,
+  "tokens": 980,
+  "frames": 273465,
+  "cache_dir": "/data/fcy/code/openwam-exp/cache/flux2_libero_frames",
+  "estimated_cache_gib": 25.558061599731445,
+  "global_batch": 256,
+  "steps": 10690,
+  "from_scratch": true,
+  "source_sha256": "fdad5082632c834479328c0b37329dd8ac9c175d54a1680c3e84a39be2edf423"
+}

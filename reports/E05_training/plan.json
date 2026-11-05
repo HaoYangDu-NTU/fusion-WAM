@@ -1,0 +1,26 @@
+{
+  "encoder": "frozen official VGGT-Omega 512 checkpoint; 224 per view",
+  "temporal_offsets": [
+    -4,
+    0,
+    4,
+    8,
+    12,
+    16,
+    20,
+    24,
+    28,
+    32
+  ],
+  "clean": 2,
+  "future": 8,
+  "tokens": 980,
+  "frames": 273465,
+  "cache_dir": "/data/fcy/code/openwam-exp/cache/vggt_omega_libero_stereo",
+  "estimated_cache_gib": 408.9289855957031,
+  "global_batch": 256,
+  "steps": 10690,
+  "from_scratch": true,
+  "workspace": "/data/fcy/code/openwam-exp",
+  "source_sha256": "b4b1ea02dc45a9836da4e1dd5f7fa67a8f9a9b3823836caa4aad321efc726ccd"
+}

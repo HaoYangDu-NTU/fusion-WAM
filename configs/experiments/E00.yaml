@@ -1,0 +1,21 @@
+id: E00
+name: m29_rynn9b_vjepa21
+source: OpenWAM_v2
+asset: vjepa21_g
+geometry:
+  clean_latents: 1
+  future_latents: 4
+  channels: 1408
+  tokens: 490
+  temporal_design: native_video_tubelets
+overrides:
+  - model/video_backbone/encoder=vjepa21
+  - model.video_backbone.encoder.use_avg_t_pooling=false
+  - model.video_backbone.encoder.use_wan_style_patch_grid=true
+  - model.video_backbone.encoder.history_num_tubelets=1
+  - model.video_backbone.encoder.seperate_encode_view=true
+  - model.video_backbone.encoder.add_input_bottleneck=true
+  - model.video_backbone.encoder.bottleneck_dim=256
+  - model.video_backbone.encoder.condition_fusion_method=last_layer
+  - model.video_backbone.encoder.future_fusion_method=last_layer
+freeze_visual: video_backbone.video_encoder

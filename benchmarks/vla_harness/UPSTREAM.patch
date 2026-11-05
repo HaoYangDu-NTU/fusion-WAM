@@ -1,0 +1,12 @@
+--- a/src/vla_eval/orchestrator.py
++++ b/src/vla_eval/orchestrator.py
+@@ -313,7 +313,8 @@
+             (task_idx, task, ep) for task_idx, task in enumerate(tasks) for ep in range(cfg.episodes_per_task)
+         ]
+         if self.num_shards is not None and self.shard_id is not None:
+-            work_items = _shard_work_items(work_items, self.num_shards, self.shard_id)
++            partition = getattr(benchmark, "shard_work_items", _shard_work_items)
++            work_items = partition(work_items, self.num_shards, self.shard_id)
+             logger.info("Shard %d/%d: %d episodes assigned", self.shard_id, self.num_shards, len(work_items))
+ 
+         collector = ResultCollector(benchmark_name=name, mode=cfg.mode, metric_keys=benchmark.get_metric_keys())

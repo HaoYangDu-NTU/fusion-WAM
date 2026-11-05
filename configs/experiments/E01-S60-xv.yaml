@@ -1,0 +1,8 @@
+id: E01-S60-xv
+name: m29_rynn9b_dinov3_e01_s60_xv
+base_experiment: E01
+report_future_quality: true
+policy_overrides:
+  model.architecture.video_prediction_type: x
+  model.architecture.action_prediction_type: v
+  model.video_backbone.shift_video: 60

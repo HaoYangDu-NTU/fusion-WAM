@@ -1,0 +1,75 @@
+{
+  "benchmark": "OpenWAMLIBEROPlus",
+  "smoke": false,
+  "selected_run_complete": true,
+  "complete": true,
+  "group_by": "category",
+  "category_results": [
+    {
+      "category": "Objects Layout",
+      "successes": 1181,
+      "trials": 1525,
+      "success_rate": 0.7744262295081967,
+      "tasks_complete": 1525,
+      "tasks_expected": 1525
+    },
+    {
+      "category": "Camera Viewpoints",
+      "successes": 637,
+      "trials": 1599,
+      "success_rate": 0.3983739837398374,
+      "tasks_complete": 1599,
+      "tasks_expected": 1599
+    },
+    {
+      "category": "Robot Initial States",
+      "successes": 1268,
+      "trials": 1550,
+      "success_rate": 0.8180645161290323,
+      "tasks_complete": 1550,
+      "tasks_expected": 1550
+    },
+    {
+      "category": "Language Instructions",
+      "successes": 1225,
+      "trials": 1537,
+      "success_rate": 0.7970071567989591,
+      "tasks_complete": 1537,
+      "tasks_expected": 1537
+    },
+    {
+      "category": "Light Conditions",
+      "successes": 1059,
+      "trials": 1142,
+      "success_rate": 0.9273204903677759,
+      "tasks_complete": 1142,
+      "tasks_expected": 1142
+    },
+    {
+      "category": "Background Textures",
+      "successes": 887,
+      "trials": 1076,
+      "success_rate": 0.8243494423791822,
+      "tasks_complete": 1076,
+      "tasks_expected": 1076
+    },
+    {
+      "category": "Sensor Noise",
+      "successes": 1383,
+      "trials": 1601,
+      "success_rate": 0.8638351030605871,
+      "tasks_complete": 1601,
+      "tasks_expected": 1601
+    }
+  ],
+  "overall": {
+    "successes": 7640,
+    "trials": 10030,
+    "success_rate": 0.7617148554336989,
+    "tasks_complete": 10030,
+    "tasks_expected": 10030
+  },
+  "invalid_records": 0,
+  "expected_full_trials": 10030,
+  "total_average_success_rate": 0.7617148554336989
+}

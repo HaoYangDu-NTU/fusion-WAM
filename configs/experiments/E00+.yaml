@@ -1,0 +1,12 @@
+id: E00+
+name: m29_rynn9b_vjepa21_e00plus_sparse
+base_experiment: E00
+action_router:
+  enabled: true
+  dim: 512
+  num_heads: 8
+  top_k: 32
+  gate_init: 0.01
+  sparse_weight: 0.01
+  warmup_steps: 1000
+  ramp_steps: 4000

@@ -1,0 +1,16 @@
+id: E06
+name: m29_rynn9b_flux2_vae
+source: black-forest-labs/FLUX.2-klein-4B/vae
+asset: flux2_vae
+geometry:
+  clean_latents: 2
+  future_latents: 8
+  channels: 128
+  tokens: 980
+  temporal_design: independent_framewise_history_current_plus_8_future
+overrides:
+  - model/video_backbone/encoder=flux2_framewise
+freeze_visual: video_backbone.video_encoder
+data_overrides:
+  history_num_tubelets: 1
+  clean_condition_frame_offsets: null

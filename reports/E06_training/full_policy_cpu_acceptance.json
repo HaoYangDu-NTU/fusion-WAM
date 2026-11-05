@@ -1,0 +1,110 @@
+{
+  "passed": true,
+  "real_pretrained_encoder": true,
+  "real_libero_reader": true,
+  "device": "cpu",
+  "threads": 4,
+  "batch_size": 1,
+  "policy_size": "full 30-layer architecture",
+  "original_policy": {
+    "video_dim": 1536,
+    "video_layers": 30,
+    "action_dim": 1024
+  },
+  "smoke_policy": {
+    "video_dim": 1536,
+    "video_layers": 30,
+    "action_dim": 1024
+  },
+  "trainable_parameters": 1899117136,
+  "encoder_parameters": 34425856,
+  "encoder_trainable": 0,
+  "load_seconds": 15.872618939727545,
+  "encode_10_times_seconds": 33.70923648076132,
+  "input_rgb_frames": 10,
+  "per_view_resolution": [
+    224,
+    224
+  ],
+  "raw_feature_shape": [
+    1,
+    128,
+    10,
+    14,
+    28
+  ],
+  "projected_shape": [
+    1,
+    1536,
+    10,
+    7,
+    14
+  ],
+  "tokens": 980,
+  "clean_latents": 2,
+  "future_latents": 8,
+  "video_padding_mask_shape": [
+    1,
+    8
+  ],
+  "target_checks": [
+    {
+      "shape": [
+        1,
+        128,
+        10,
+        14,
+        28
+      ],
+      "requires_grad": false
+    }
+  ],
+  "future_leakage_max_abs": 0.0,
+  "frozen_targets_unchanged": true,
+  "projection_updated": true,
+  "steps": [
+    {
+      "step": 1,
+      "forward_seconds": 2.6642074128612876,
+      "backward_seconds": 4.888496334198862,
+      "losses": {
+        "loss": 0.1812009960412979,
+        "loss_video": 0.01884124055504799,
+        "loss_action": 0.16235975921154022
+      },
+      "gradient_norms": {
+        "clean_proj": 0.0077700382098555565,
+        "future_proj1": 0.0026080310344696045,
+        "future_proj2": 0.0018812338821589947,
+        "output_head": 0.02359241247177124,
+        "m29_first_block_q": 0.0013767685741186142
+      }
+    }
+  ],
+  "reload_checks": {
+    "full_real_checkpoint": true,
+    "strict_reload": true,
+    "contract": {
+      "name": "flux2_framewise",
+      "latent_channels": 128,
+      "patch_size": [
+        1,
+        2,
+        2
+      ],
+      "temporal_compression": 1,
+      "num_condition_latents": 2
+    },
+    "frozen_features_max_abs_difference": 0.0,
+    "train_eval_clean_max_abs_difference": 0.0,
+    "action_chunk_shape": [
+      32,
+      10
+    ],
+    "actions_finite": true,
+    "temporary_checkpoint_deleted": true,
+    "elapsed_seconds": 63.15031019086018
+  },
+  "peak_process_rss_gib": 25.78649139404297,
+  "full_size_gpu_timing_measured": false
+}

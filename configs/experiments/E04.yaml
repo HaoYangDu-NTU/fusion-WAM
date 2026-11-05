@@ -1,0 +1,22 @@
+id: E04
+name: m29_rynn9b_wan22_vae
+source: Wan-AI/Wan2.2-TI2V-5B/Wan2.2_VAE.pth
+asset: wan22_vae
+geometry:
+  clean_latents: 1
+  future_latents: 8
+  channels: 48
+  tokens: 882
+  temporal_design: native_causal_vae_video
+overrides:
+  - model/video_backbone/encoder=wan_vae
+  - model.video_backbone.encoder.vae_version='2.2'
+  - model.video_backbone.encoder.spatial_patch_size=2
+data_overrides:
+  video_stride: 1
+  history_num_tubelets: 0
+  clean_condition_frame_offsets: null
+  latent_cache_dir: /data/fcy/code/openwam-exp/cache/wan22_libero_windows
+freeze_visual: video_backbone.video_encoder
+environment:
+  PYTORCH_CUDA_ALLOC_CONF: expandable_segments:True

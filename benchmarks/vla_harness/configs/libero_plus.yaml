@@ -1,0 +1,17 @@
+# Each task uses the unmodified official Plus client environment in a fresh process.
+server:
+  url: ws://127.0.0.1:8940
+  timeout: 300
+render: gpu
+output_dir: outputs/vla_harness/libero_plus
+benchmarks:
+  - benchmark: benchmarks.vla_harness.libero_plus:OpenWAMLIBEROPlusBenchmark
+    name: OpenWAMLIBEROPlus
+    mode: sync
+    recording:
+      record_step: false
+      record_video: false
+    episodes_per_task: 1
+    params:
+      correct_instruction_suffix: true
+      suites: [libero_spatial, libero_object, libero_goal, libero_10]

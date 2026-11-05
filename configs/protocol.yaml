@@ -1,0 +1,194 @@
+schema_version: 1
+status: implemented_cpu_validated_gpu_pending
+backend:
+  source_reference: /data/fcy/code/OpenWAM_v2
+  target_package: openwam
+  implementation_ready: true
+text:
+  encoder_type: rynnbrain1p1-9b
+  pretrained_asset: rynnbrain_9b
+  frozen: true
+  execution: offline_text_only
+  aggregation: avg_all_layers
+  decoder_layers: 32
+  hidden_size: 4096
+  max_tokens: 128
+  padding_side: right
+  layer_norm_eps: 1.0e-05
+  exclude_input_embedding: true
+  system_prompt: You are a helpful assistant who will provide prompts to an image
+    generator.
+  cache_train: cache/text/rynnbrain1p1-9b/libero/avg_all_layers
+  cache_plus: cache/text/rynnbrain1p1-9b/libero-plus/avg_all_layers/corrected_text
+  require_shared_model_fingerprint: true
+  train_online_text_encoder: false
+data:
+  dataset_dir: /data/fcy/code/OpenWAM/data/libero
+  benchmark: libero
+  split: train
+  num_frames: 33
+  action_horizon: 32
+  video_stride: 4
+  window_stride: 1
+  history_num_tubelets: 1
+  sampled_visual_offsets:
+  - -4
+  - 0
+  - 4
+  - 8
+  - 12
+  - 16
+  - 20
+  - 24
+  - 28
+  - 32
+  views:
+  - front
+  - wrist
+  encode_views_independently: true
+  view_size:
+  - 224
+  - 224
+  color_jitter: false
+  normalization: canonical_native_action_minmax
+  action_dim: 80
+  state_dim: 80
+  pin_dataset_and_stats_hashes: true
+policy:
+  family: m29
+  framework: dual_system
+  variant: joint_self_attn
+  initialization: from_scratch
+  finetune_ckpt_path: null
+  video_dit:
+    dim: 1536
+    ffn_dim: 7168
+    num_layers: 30
+    num_heads: 12
+    head_dim: 128
+    dit_patch_size:
+    - 1
+    - 2
+    - 2
+    future_bottleneck_dim: 256
+  action_dit:
+    dim: 1024
+    ffn_dim: 4096
+    bridge_interval: 1
+    num_layers: 30
+    attention_heads_follow_video: true
+  text_context_dim: 4096
+  use_proprioception: true
+  action_scale: 1.0
+  video_prediction_type: x
+  action_prediction_type: x
+  attention_mask_mode: mutual
+  video_attention_mask_mode: clean_condition_causal
+  clean_latents_noise_free: true
+  exclude_clean_latents_from_world_loss: true
+  restore_clean_latents_each_denoising_step: true
+  condition_fusion_method: last_layer
+  future_fusion_method: last_layer
+  repa_enabled: false
+  svae_enabled: false
+visual_contract:
+  layout: B_C_T_H_W
+  stitched_grid:
+  - 14
+  - 28
+  design: preserve_each_encoder_native_interfaces
+  profiles: configs/experiments
+  normalization: encoder_specific
+  future_targets_detached: true
+training:
+  world_size: 4
+  batch_size_per_gpu: 64
+  gradient_accumulation_steps: 1
+  global_batch_size: 256
+  num_epochs: 10
+  max_steps: null
+  reference_num_windows: 273465
+  expected_steps_per_epoch: 1069
+  expected_total_steps: 10690
+  derive_actual_steps_from_locked_sampler: true
+  optimizer: AdamW
+  learning_rate: 0.0001
+  adam_betas:
+  - 0.9
+  - 0.95
+  weight_decay: 0.01
+  max_grad_norm: 1.0
+  lr_scheduler: cosine
+  warmup_ratio: 0.05
+  lr_min_ratio: 0.01
+  noise_schedule_distribution: logit_normal
+  shift_video: 42.0
+  shift_action: 5.0
+  lambda_video: 1.0
+  lambda_action: 1.0
+  mixed_precision: bf16
+  zero_stage: 1
+  use_gradient_checkpointing: true
+  offload_optimizer_device: none
+  use_gradient_checkpointing_offload: false
+  dataset_num_workers_per_rank: 4
+  pilot_seeds:
+  - 42
+  confirmatory_seeds:
+  - 42
+  - 43
+  - 44
+  save_steps: 500
+  save_full_states_for_resume: true
+  keep_last_k_ckpts: 3
+  save_final_full_state: true
+  stop_file: STOP_TRAINING
+  resume_same_world_size_and_batch: true
+runtime:
+  python: /data/fcy/basics/miniconda3/envs/openwam/bin/python
+  attention_impl: sdpa
+  disable_fused_rope: true
+  disable_fused_attention: true
+  disable_compiled_rms_norm: true
+  compile: false
+  record_environment_and_source_hashes: true
+  smoke_warmup_steps: 5
+  smoke_measured_steps: 30
+  scheduling: sequential_single_experiment_on_four_gpus
+evaluation:
+  checkpoint_selection: final_fixed_budget
+  standard_libero:
+    suites:
+    - libero_spatial
+    - libero_object
+    - libero_goal
+    - libero_10
+    tasks_per_suite: 10
+    episodes_per_task: 50
+    expected_trials: 2000
+    instruction_correction: false
+  libero_plus:
+    instruction_correction: true
+    expected_trials: 10030
+    expected_categories: 7
+    require_complete_for_overall: true
+  common:
+    denoising_steps: 10
+    velocity_cache: false
+    paired_episode_seeds_across_models: true
+    freeze_action_execution_and_reset_protocol: true
+    validate_unique_trials_and_errors: true
+  report:
+    primary_metric: closed_loop_success_rate
+    include:
+    - suite_rates
+    - category_rates
+    - counts
+    - invalid_records
+    - samples_per_second
+    - peak_gpu_memory
+    - gpu_hours
+    - trainable_parameters
+    - frozen_parameters
+    - token_count
+    - resume_status

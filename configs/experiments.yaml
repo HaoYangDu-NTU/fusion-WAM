@@ -1,0 +1,43 @@
+schema_version: 2
+shared_protocol: configs/protocol.yaml
+experiments:
+  E00: configs/experiments/E00.yaml
+  E00+: configs/experiments/E00+.yaml
+  E00+-Dense: configs/experiments/E00+-Dense.yaml
+  E01: configs/experiments/E01.yaml
+  E02: configs/experiments/E02.yaml
+  E01-Cache: configs/experiments/E01-Cache.yaml
+  E02-Cache: configs/experiments/E02-Cache.yaml
+  E03: configs/experiments/E03.yaml
+  E03-Cache: configs/experiments/E03-Cache.yaml
+  E03-Patch: configs/experiments/E03-Patch.yaml
+  E04: configs/experiments/E04.yaml
+  E05: configs/experiments/E05.yaml
+  E06: configs/experiments/E06.yaml
+  E07: configs/experiments/E07.yaml
+  E07-Cache: configs/experiments/E07-Cache.yaml
+  E08: configs/experiments/E08.yaml
+  E08-Cache: configs/experiments/E08-Cache.yaml
+  E01-P1: configs/experiments/E01-P1.yaml
+  E01-P1-Cache: configs/experiments/E01-P1-Cache.yaml
+  E01-P2: configs/experiments/E01-P2.yaml
+  E01-S24-xx: configs/experiments/E01-S24-xx.yaml
+  E01-S24-xv: configs/experiments/E01-S24-xv.yaml
+  E01-S24-vx: configs/experiments/E01-S24-vx.yaml
+  E01-S60-xx: configs/experiments/E01-S60-xx.yaml
+  E01-S60-xv: configs/experiments/E01-S60-xv.yaml
+  E01-S60-vx: configs/experiments/E01-S60-vx.yaml
+  E01-P2-Cache: configs/experiments/E01-P2-Cache.yaml
+  E01-P2-Cache-W2: configs/experiments/E01-P2-Cache-W2.yaml
+  E01-P3-Cache-W2: configs/experiments/E01-P3-Cache-W2.yaml
+  E01-S24-xx-Cache-W2: configs/experiments/E01-S24-xx-Cache-W2.yaml
+  E01-S60-xx-Cache-W2: configs/experiments/E01-S60-xx-Cache-W2.yaml
+  E01-S12-xx-Cache-W2: configs/experiments/E01-S12-xx-Cache-W2.yaml
+  E01-LV05-Cache-W2: configs/experiments/E01-LV05-Cache-W2.yaml
+  E01-LV2-Cache-W2: configs/experiments/E01-LV2-Cache-W2.yaml
+  E01-S24-xx-Cache: configs/experiments/E01-S24-xx-Cache.yaml
+  E01-S24-xv-Cache: configs/experiments/E01-S24-xv-Cache.yaml
+  E01-S24-vx-Cache: configs/experiments/E01-S24-vx-Cache.yaml
+  E01-S60-xx-Cache: configs/experiments/E01-S60-xx-Cache.yaml
+  E01-S60-xv-Cache: configs/experiments/E01-S60-xv-Cache.yaml
+  E01-S60-vx-Cache: configs/experiments/E01-S60-vx-Cache.yaml

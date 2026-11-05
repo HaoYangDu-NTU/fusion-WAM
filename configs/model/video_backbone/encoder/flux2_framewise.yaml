@@ -1,0 +1,7 @@
+name: flux2_framewise
+model_path: /data/fcy/code/openwam-exp/encoder/flux2-vae
+seperate_encode_view: true
+add_one_history_context: true
+add_input_bottleneck: true
+bottleneck_dim: 256
+feature_cache_dir: /data/fcy/code/openwam-exp/cache/flux2_libero_frames

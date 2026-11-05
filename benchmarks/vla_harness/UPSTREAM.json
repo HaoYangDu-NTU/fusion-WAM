@@ -1,0 +1,14 @@
+{
+  "url": "https://github.com/allenai/vla-evaluation-harness",
+  "commit": "c233542f3837bee4e6454c351709a3a1359df7b9",
+  "version": "v0.6.0",
+  "source": "/workspace/code/vla-evaluation-harness",
+  "copy": "git archive HEAD; original tracked files retained; .git excluded",
+  "patches": [
+    {
+      "path": "src/vla_eval/orchestrator.py",
+      "patch": "benchmarks/vla_harness/UPSTREAM.patch",
+      "reason": "Optional benchmark-specific task sharding; fallback retains upstream episode sharding"
+    }
+  ]
+}

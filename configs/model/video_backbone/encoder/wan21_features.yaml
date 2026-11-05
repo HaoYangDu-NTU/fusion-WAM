@@ -1,0 +1,9 @@
+name: wan21_features
+model_path: /data/fcy/code/openwam-exp/encoder/wan21-i2v-14b-480p
+empty_context_path: ${model.video_backbone.encoder.model_path}/empty_context.safetensors
+feature_layer: 40
+microbatch_size: 1
+bottleneck_dim: 256
+feature_norm_eps: 1e-5
+seperate_encode_view: true
+add_input_bottleneck: true

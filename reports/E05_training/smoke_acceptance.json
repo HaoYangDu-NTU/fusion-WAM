@@ -1,0 +1,262 @@
+{
+  "passed": true,
+  "ranks": [
+    {
+      "step": 4,
+      "wall_ms": 6590.979336760938,
+      "phases": {
+        "data_wait": {
+          "cuda_elapsed_ms": 5.35916805267334,
+          "host_ms": 5.327298771589994,
+          "calls": 1
+        },
+        "prepare_inputs": {
+          "cuda_elapsed_ms": 3729.873779296875,
+          "host_ms": 3726.9072816707194,
+          "calls": 1
+        },
+        "joint_forward": {
+          "cuda_elapsed_ms": 640.4036254882812,
+          "host_ms": 509.20147309079766,
+          "calls": 1
+        },
+        "forward_and_loss": {
+          "cuda_elapsed_ms": 663.5341796875,
+          "host_ms": 666.3355510681868,
+          "calls": 1
+        },
+        "deepspeed_step": {
+          "cuda_elapsed_ms": 44.49750518798828,
+          "host_ms": 60.84159575402737,
+          "calls": 1
+        },
+        "backward_and_deepspeed_step": {
+          "cuda_elapsed_ms": 2183.616455078125,
+          "host_ms": 2183.5664408281446,
+          "calls": 1
+        },
+        "optimizer_wrapper": {
+          "cuda_elapsed_ms": 0.2290560007095337,
+          "host_ms": 0.21372642368078232,
+          "calls": 1
+        },
+        "metrics_reduce": {
+          "cuda_elapsed_ms": 2.802687883377075,
+          "host_ms": 2.7885939925909042,
+          "calls": 1
+        }
+      },
+      "shapes": {
+        "deepspeed_step": {
+          "inputs": [],
+          "output": null
+        }
+      },
+      "process_cpu_ms": 4588.1658340000085,
+      "profiled": false,
+      "gc_ms": 6.2867263332009315,
+      "gc_calls": 56,
+      "allocated_gb": 10.720344543457031,
+      "peak_allocated_gb": 30.040454864501953,
+      "metrics": {
+        "loss_total": 11.515364646911621,
+        "loss_video": 0.9560954570770264,
+        "loss_action": 10.559268951416016,
+        "grad_norm": 142.66261291503906
+      }
+    },
+    {
+      "step": 4,
+      "wall_ms": 6591.044771019369,
+      "phases": {
+        "data_wait": {
+          "cuda_elapsed_ms": 5.551616191864014,
+          "host_ms": 5.517550744116306,
+          "calls": 1
+        },
+        "prepare_inputs": {
+          "cuda_elapsed_ms": 3831.3662109375,
+          "host_ms": 3828.4696829505265,
+          "calls": 1
+        },
+        "joint_forward": {
+          "cuda_elapsed_ms": 641.4788208007812,
+          "host_ms": 509.71314404159784,
+          "calls": 1
+        },
+        "forward_and_loss": {
+          "cuda_elapsed_ms": 664.61376953125,
+          "host_ms": 667.3312340863049,
+          "calls": 1
+        },
+        "deepspeed_step": {
+          "cuda_elapsed_ms": 44.53721618652344,
+          "host_ms": 60.73078606277704,
+          "calls": 1
+        },
+        "backward_and_deepspeed_step": {
+          "cuda_elapsed_ms": 2080.814453125,
+          "host_ms": 2080.79442800954,
+          "calls": 1
+        },
+        "optimizer_wrapper": {
+          "cuda_elapsed_ms": 0.3786559998989105,
+          "host_ms": 0.3625843673944473,
+          "calls": 1
+        },
+        "metrics_reduce": {
+          "cuda_elapsed_ms": 2.5837440490722656,
+          "host_ms": 2.566094044595957,
+          "calls": 1
+        }
+      },
+      "shapes": {
+        "deepspeed_step": {
+          "inputs": [],
+          "output": null
+        }
+      },
+      "process_cpu_ms": 4711.970419000004,
+      "profiled": false,
+      "gc_ms": 6.5400064922869205,
+      "gc_calls": 56,
+      "allocated_gb": 10.720344543457031,
+      "peak_allocated_gb": 30.040454864501953,
+      "metrics": {
+        "loss_total": 11.515364646911621,
+        "loss_video": 0.9560954570770264,
+        "loss_action": 10.559268951416016,
+        "grad_norm": 142.66261291503906
+      }
+    },
+    {
+      "step": 4,
+      "wall_ms": 6591.442004777491,
+      "phases": {
+        "data_wait": {
+          "cuda_elapsed_ms": 6.036863803863525,
+          "host_ms": 5.984546151012182,
+          "calls": 1
+        },
+        "prepare_inputs": {
+          "cuda_elapsed_ms": 3926.492431640625,
+          "host_ms": 3923.557545989752,
+          "calls": 1
+        },
+        "joint_forward": {
+          "cuda_elapsed_ms": 641.5822143554688,
+          "host_ms": 509.8372087813914,
+          "calls": 1
+        },
+        "forward_and_loss": {
+          "cuda_elapsed_ms": 664.6489868164062,
+          "host_ms": 667.3960969783366,
+          "calls": 1
+        },
+        "deepspeed_step": {
+          "cuda_elapsed_ms": 44.95267105102539,
+          "host_ms": 60.806757770478725,
+          "calls": 1
+        },
+        "backward_and_deepspeed_step": {
+          "cuda_elapsed_ms": 1983.716064453125,
+          "host_ms": 1983.6868857964873,
+          "calls": 1
+        },
+        "optimizer_wrapper": {
+          "cuda_elapsed_ms": 1.6809279918670654,
+          "host_ms": 1.6528628766536713,
+          "calls": 1
+        },
+        "metrics_reduce": {
+          "cuda_elapsed_ms": 1.0202879905700684,
+          "host_ms": 0.9964760392904282,
+          "calls": 1
+        }
+      },
+      "shapes": {
+        "deepspeed_step": {
+          "inputs": [],
+          "output": null
+        }
+      },
+      "process_cpu_ms": 4381.629889000003,
+      "profiled": false,
+      "gc_ms": 7.044341880828142,
+      "gc_calls": 50,
+      "allocated_gb": 10.720344543457031,
+      "peak_allocated_gb": 30.040454864501953,
+      "metrics": {
+        "loss_total": 11.515364646911621,
+        "loss_video": 0.9560954570770264,
+        "loss_action": 10.559268951416016,
+        "grad_norm": 142.66261291503906
+      }
+    },
+    {
+      "step": 4,
+      "wall_ms": 6591.051934752613,
+      "phases": {
+        "data_wait": {
+          "cuda_elapsed_ms": 5.599167823791504,
+          "host_ms": 5.565606988966465,
+          "calls": 1
+        },
+        "prepare_inputs": {
+          "cuda_elapsed_ms": 3716.0419921875,
+          "host_ms": 3713.9167790301144,
+          "calls": 1
+        },
+        "joint_forward": {
+          "cuda_elapsed_ms": 642.9615478515625,
+          "host_ms": 510.9753175638616,
+          "calls": 1
+        },
+        "forward_and_loss": {
+          "cuda_elapsed_ms": 666.2052001953125,
+          "host_ms": 668.0208910256624,
+          "calls": 1
+        },
+        "deepspeed_step": {
+          "cuda_elapsed_ms": 42.800289154052734,
+          "host_ms": 68.51667398586869,
+          "calls": 1
+        },
+        "backward_and_deepspeed_step": {
+          "cuda_elapsed_ms": 2189.56005859375,
+          "host_ms": 2189.5433850586414,
+          "calls": 1
+        },
+        "optimizer_wrapper": {
+          "cuda_elapsed_ms": 0.34166398644447327,
+          "host_ms": 0.32745301723480225,
+          "calls": 1
+        },
+        "metrics_reduce": {
+          "cuda_elapsed_ms": 2.671839952468872,
+          "host_ms": 2.6522576808929443,
+          "calls": 1
+        }
+      },
+      "shapes": {
+        "deepspeed_step": {
+          "inputs": [],
+          "output": null
+        }
+      },
+      "process_cpu_ms": 4832.366722000003,
+      "profiled": false,
+      "gc_ms": 8.146320935338736,
+      "gc_calls": 57,
+      "allocated_gb": 10.720344543457031,
+      "peak_allocated_gb": 30.040454864501953,
+      "metrics": {
+        "loss_total": 11.515364646911621,
+        "loss_video": 0.9560954570770264,
+        "loss_action": 10.559268951416016,
+        "grad_norm": 142.66261291503906
+      }
+    }
+  ],
+  "checkpoint": "/data/fcy/code/openwam-exp/outputs/m29_rynn9b_vggt_omega_spatial/smoke/s42/2026-10-26_23-49-58/checkpoint_step_4.safetensors"
+}

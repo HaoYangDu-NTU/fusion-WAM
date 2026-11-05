@@ -1,0 +1,22 @@
+id: E02-Cache
+name: m29_rynn9b_ijepa_frame_cache
+source: openwam-ijepa
+asset: ijepa_g
+geometry:
+  clean_latents: 1
+  future_latents: 4
+  channels: 1408
+  tokens: 490
+  temporal_design: native_gated_difference_and_future_pairs
+overrides:
+  - model/video_backbone/encoder=ijepa
+  - model.video_backbone.encoder.history_fusion_mode=gated_difference
+  - model.video_backbone.encoder.temporal_group_size=2
+  - model.video_backbone.encoder.add_one_history_context=true
+  - model.video_backbone.encoder.seperate_encode_view=true
+  - model.video_backbone.encoder.add_input_bottleneck=true
+  - model.video_backbone.encoder.bottleneck_dim=256
+  - model.video_backbone.encoder.feature_norm_eps=1e-5
+freeze_visual: video_backbone.video_encoder._m
+data_overrides:
+  frame_feature_cache_dir: /data/fcy/code/openwam-exp/cache/ijepa_libero_frames
