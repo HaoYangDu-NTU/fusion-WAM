@@ -1,6 +1,55 @@
 # E00+：动作相关的 Clean Visual Residual Router
 
-更新时间：2026-11-04。研究依据见 [方案与讨论记录](CAUSALWAM_M29_ROUTING_RESEARCH_PLAN.md)。
+更新时间：2026-11-10。研究依据见 [方案与讨论记录](CAUSALWAM_M29_ROUTING_RESEARCH_PLAN.md)。
+
+本轮匹配微调结果与真实 checkpoint 速度对照设计见 [2026-11-10 实验记录](E00_PLUS_EXPERIMENT_LOG_20261110.md)。FT-B0 标准 LIBERO 已完成：97.30%（1946/2000）；Initial B0 为96.95%（1939/2000）。
+
+## 2026-11-10：已有 E00 checkpoint 的匹配微调试验
+
+新增独立入口 [e00_plus_finetune.py](../scripts/e00_plus_finetune.py)，参数见
+[e00_plus_finetune.yaml](../configs/e00_plus_finetune.yaml)。下面是 warm-start pilot，
+不改变本页原 E00/E00+ 从头训练配置，也不将微调结果混入原固定预算的 Encoder 对比。
+
+- 来源：`OpenWAM_v2/outputs/libero_vjepa_1_3b_dev_vx_ax_s42.0/2026-10-26_20-36-02/checkpoint_step_10690.safetensors`。
+  已确认是 M29 + RynnBrain1.1-9B avg_all_layers + V-JEPA2.1，包含原 30 层主干、490 visual tokens。
+  历史配置每卡 batch32；源训练 world size 未由此配置确认。本次三组都统一为四卡、每卡64。
+- B0：原模型继续训练；B1：新增 Dense Residual Router；B2：同一个 Router + Top-k mass loss。
+  三组均从同一 source 出发，使用新的 optimizer/scheduler，seed42、LR1e-5、1000 updates、global batch256。
+  冻结原视觉 Encoder、保留原视频/动作损失；主干与 Router 正常更新。
+- B1/B2 共享完全相同的 Router 初值。初始 gate0.01、k32、width512、8 heads。
+  B2 的系数前100 updates 为0，随后400 updates线性增长至0.01；B1 始终为0。
+  这样短程微调会实际经历稀疏正则阶段，不能直接沿用从头训练的1000/4000调度。
+- 初始化脚本只追加9个 `action_router.*` tensors、2,624,001个参数；2151个共有 tensors 已逐项验证与源权重精确一致。
+  B0 链接源权重；B1/B2 使用同一份只读初始化权重（硬链接），配置中的正则系数不同。
+  不使用宽松 checkpoint 加载，不改变原 checkpoint/config，不需要下载新预训练权重。
+- 初始化检查同时验证数据归一化和文本 cache 指纹；三个模型通过严格训练加载器和 CPU 有限值检查。
+  原 B0 的旧环境评测仅供历史参考；队列会在当前代码/协议下重新评测初始 B0。
+- 自动队列顺序：B0/B1/B2 各6步 GPU smoke（正式 batch64）→ 初始B0标准LIBERO →
+  B0微调1000步+LIBERO → B1微调1000步+LIBERO → B2微调1000步+LIBERO。
+  每次标准LIBERO为2000 trials，沿用10步去噪/执行10步/原每步传输路径；本轮不叠加客户端动作队列提速开关。
+  LIBERO-Plus、router-disable和多训练种子复验在首轮结果后安排，不由此队列自动启动。
+
+```bash
+PY=/data/fcy/basics/miniconda3/envs/openwam/bin/python
+# 配置/命令预览，不训练。
+"$PY" scripts/e00_plus_finetune.py
+# 准备独立初始权重；再次执行会校验来源身份。
+"$PY" scripts/e00_plus_finetune.py --prepare
+CUDA_VISIBLE_DEVICES='' "$PY" scripts/e00_plus_finetune.py --validate-cpu
+# 等待四张GPU空闲，顺序运行有限队列；不终止现有任务。
+"$PY" scripts/e00_plus_finetune.py --run
+```
+
+本地初始化证据：`outputs/e00_plus_finetune/initialization/READY.json`、`CPU_VALIDATED.json`。
+训练分别写入 `outputs/e00_plus_finetune/train/B0|B1|B2/<timestamp>/`；smoke独立保存，不用于正式续训。
+队列状态、逐阶段命令/日志、完整标准评测和结果汇总位于
+`reports/E00_plus/finetune_20261110/`（`status.json`、`RESULTS.md`、`results.json`）。
+创建该目录下的 `STOP` 可阻止后续阶段；停止正在运行的训练使用该训练目录的 `STOP_TRAINING`。
+已完成阶段不会重复运行；失败/中断阶段要求先检查，不会自动重训覆盖已有结果。
+代码或配置在等待期间变化时队列会停止，避免不同源码混入同一对照。
+
+后续判断依次看 `SR(FT-B0)-SR(initial B0)`、`SR(FT-B1)-SR(FT-B0)`、
+`SR(FT-B2)-SR(FT-B1)`。1000步、单训练seed的首轮试验仅作筛选，不能代替原10690步从头训练或多seed结论。
 
 ## 实验与范围
 

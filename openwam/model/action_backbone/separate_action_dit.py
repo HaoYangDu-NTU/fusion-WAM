@@ -872,4 +872,12 @@ class ActionDiT(ActionDiTBackbone):
 
     def extract_prediction(self, astate: "ActionState") -> torch.Tensor:
         payload: ActionDiTState = astate.payload
-        return self.action_decoder(payload.x_action)
+        # DeepSpeed/Accelerate can expose trainable head parameters in FP32
+        # while the frozen M29 stream remains BF16. The decoder is the final
+        # linear projection outside the DiT block autocast path, so align its
+        # input explicitly and return predictions in the stream dtype expected
+        # by the joint architecture.
+        x_action = payload.x_action
+        decoder_dtype = self.action_decoder.weight.dtype
+        prediction = self.action_decoder(x_action.to(dtype=decoder_dtype))
+        return prediction.to(dtype=x_action.dtype)

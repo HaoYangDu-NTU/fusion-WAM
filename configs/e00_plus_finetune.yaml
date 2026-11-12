@@ -1,0 +1,16 @@
+# Separate warm-start pilot; E00/E00+ from-scratch profiles stay unchanged.
+source_dir: /data/fcy/code/OpenWAM_v2/outputs/libero_vjepa_1_3b_dev_vx_ax_s42.0/2026-10-26_20-36-02
+source_checkpoint: checkpoint_step_10690.safetensors
+output_root: outputs/e00_plus_finetune
+steps: 1000
+learning_rate: 1.0e-5
+batch_size_per_gpu: 64
+seed: 42
+gpus: '0,1,2,3'
+sparse_warmup: 100
+sparse_ramp: 400
+smoke_steps: 6
+eval_workers: 32
+eval_batch: 8
+eval_base_port: 9260
+retry_seconds: 30

@@ -1,5 +1,11 @@
 # OpenWAM-Exp 评测结果
 
+整理更新：**2026-11-09（北京时间）**。本页分别记录固定 M29 + RynnBrain 9B 的视觉表示实验、E01 消融和外部模型 VPP2；只将完整评测纳入总体成绩。
+
+阅读索引：[E 系列汇总](#encoder-summary) · [外部模型汇总](#external-summary) · [套件/扰动对比](#comparison) · [E 系列详细记录](#encoder-details) · [E01 消融与历史](#ablations) · [VPP2 完整结果](#vpp2-results)。
+
+<a id="encoder-summary"></a>
+
 ## E01–E08 汇总
 
 各实验均使用 M29 + RynnBrain 9B。LIBERO 为 2,000 trials，LIBERO-Plus 为 corrected text、10,030 trials；表中仅填写完整评测成绩。
@@ -17,38 +23,105 @@
 
 E03 成绩来自 E03-Patch，非已弃用的原始 E03 训练；E03-Patch 与 E04 均为 882 visual tokens。各 encoder 的输入时序及必要的输入/输出投影存在差异，完整训练配置与结果来源见各实验明细。
 
-汇总更新：2026-10-29（北京时间）。
+E00 / E00+-Dense / E00+ 尚未在本页登记完整闭环成绩；未登记不代表成功率为零。历史原始结果、checkpoint路径和自动更新标记保留。
+
+<a id="external-summary"></a>
+## 外部模型评测汇总
+
+外部模型使用本项目的环境评测协议，但模型规模、预训练方式和文本条件不同，不属于 E 系列“固定 M29 + RynnBrain 9B”的 Encoder 对比。
+
+| 模型 | 评测权重 / 文本条件 | LIBERO | LIBERO-Plus | 状态 |
+|---|---|---|---:|---|
+| VPP2 | Video step10,000 + Action step30,000；原生 UMT5 | 本次未记录 | **83.17%**（8342/10030） | 完整七类评测完成；无效记录0 |
 
 
 <!-- ENCODER_DETAIL_COMPARISON_BEGIN -->
-## LIBERO 各套件成功率对比
+<a id="comparison"></a>
+## E01–E08：LIBERO 各套件成功率对比
 
-单元格为成功率（成功数 / 有效 trial）；仅填写完整评测结果。
+单元格为成功率（成功数 / 有效 trial）。以下两张表已补齐 E07/E08，均为完整评测；每列标题链接到该实验的源 summary。
 
-| 套件 | [E01](outputs/m29_rynn9b_dinov3/eval/s42/2026-10-24_02-30-16/libero/summary.json) | [E02](outputs/m29_rynn9b_ijepa/eval/s42/2026-10-22_23-15-46/libero/summary.json) | [E03](reports/E03_speed_optimization/automatic_evaluation/evaluation/libero/summary.json) | [E04](reports/E04_wan22/automatic_evaluation/evaluation/libero/summary.json) | [E05](reports/E05_training/automatic_evaluation/evaluation/libero/summary.json) | [E06](reports/E06_training/automatic_evaluation/evaluation/libero/summary.json) |
-|---|---:|---:|---:|---:|---:|---:|
-| libero_spatial | 97.00%（485/500） | 95.00%（475/500） | 97.40%（487/500） | 96.80%（484/500） | 89.40%（447/500） | 98.00%（490/500） |
-| libero_object | 99.40%（497/500） | 98.60%（493/500） | 99.40%（497/500） | 98.60%（493/500） | 72.40%（362/500） | 98.40%（492/500） |
-| libero_goal | 91.60%（458/500） | 97.00%（485/500） | 95.00%（475/500） | 95.40%（477/500） | 84.80%（424/500） | 96.60%（483/500） |
-| libero_10 | 89.40%（447/500） | 80.40%（402/500） | 89.60%（448/500） | 87.20%（436/500） | 47.60%（238/500） | 95.60%（478/500） |
-| 总计 | 94.35%（1887/2000） | 92.75%（1855/2000） | 95.35%（1907/2000） | 94.50%（1890/2000） | 73.55%（1471/2000） | 97.15%（1943/2000） |
+| 套件 | [E01](outputs/m29_rynn9b_dinov3/eval/s42/2026-10-24_02-30-16/libero/summary.json) | [E02](outputs/m29_rynn9b_ijepa/eval/s42/2026-10-22_23-15-46/libero/summary.json) | [E03](reports/E03_speed_optimization/automatic_evaluation/evaluation/libero/summary.json) | [E04](reports/E04_wan22/automatic_evaluation/evaluation/libero/summary.json) | [E05](reports/E05_training/automatic_evaluation/evaluation/libero/summary.json) | [E06](reports/E06_training/automatic_evaluation/evaluation/libero/summary.json) | [E07](reports/E07_training_20261102/E07/evaluation/libero/summary.json) | [E08](reports/E08_training_20261102/E08/evaluation/libero/summary.json) |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| libero_spatial | 97.00%（485/500） | 95.00%（475/500） | 97.40%（487/500） | 96.80%（484/500） | 89.40%（447/500） | 98.00%（490/500） | 99.00%（495/500） | 97.00%（485/500） |
+| libero_object | 99.40%（497/500） | 98.60%（493/500） | 99.40%（497/500） | 98.60%（493/500） | 72.40%（362/500） | 98.40%（492/500） | 98.20%（491/500） | 98.00%（490/500） |
+| libero_goal | 91.60%（458/500） | 97.00%（485/500） | 95.00%（475/500） | 95.40%（477/500） | 84.80%（424/500） | 96.60%（483/500） | 94.80%（474/500） | 96.00%（480/500） |
+| libero_10 | 89.40%（447/500） | 80.40%（402/500） | 89.60%（448/500） | 87.20%（436/500） | 47.60%（238/500） | 95.60%（478/500） | 88.00%（440/500） | 86.60%（433/500） |
+| 总计 | 94.35%（1887/2000） | 92.75%（1855/2000） | 95.35%（1907/2000） | 94.50%（1890/2000） | 73.55%（1471/2000） | 97.15%（1943/2000） | 95.00%（1900/2000） | 94.40%（1888/2000） |
 
-## LIBERO-Plus 各类别成功率对比
+## E01–E08：LIBERO-Plus 各类别成功率对比
 
-统一使用 corrected text；总成功率按全部 trial 加权计算，不对七个类别取简单平均。
+统一使用 corrected text；总体为总成功数 / 总有效 trial，不对七类成功率取简单平均。VPP2 为外部模型，七类明细单列于文末。
 
-| 扰动类别 | [E01](outputs/m29_rynn9b_dinov3/eval/s42/2026-10-24_02-30-16/libero-plus/summary.json) | [E02](outputs/m29_rynn9b_ijepa/eval/s42/2026-10-22_23-15-46/libero-plus/evaluation/summary.json) | [E03](reports/E03_speed_optimization/automatic_evaluation/evaluation/libero-plus/summary.json) | [E04](reports/E04_wan22/automatic_evaluation/evaluation/libero-plus/summary.json) | [E05](reports/E05_training/automatic_evaluation/evaluation/libero-plus/summary.json) | [E06](reports/E06_training/automatic_evaluation/evaluation/libero-plus/summary.json) |
-|---|---:|---:|---:|---:|---:|---:|
-| Objects Layout | 69.44%（1059/1525） | 71.74%（1094/1525） | 76.59%（1168/1525） | 78.89%（1203/1525） | 56.20%（857/1525） | 77.44%（1181/1525） |
-| Camera Viewpoints | 38.71%（619/1599） | 52.41%（838/1599） | 61.04%（976/1599） | 88.43%（1414/1599） | 45.59%（729/1599） | 39.84%（637/1599） |
-| Robot Initial States | 75.35%（1168/1550） | 73.42%（1138/1550） | 67.87%（1052/1550） | 73.68%（1142/1550） | 45.23%（701/1550） | 81.81%（1268/1550） |
-| Language Instructions | 67.86%（1043/1537） | 66.69%（1025/1537） | 66.95%（1029/1537） | 66.88%（1028/1537） | 27.98%（430/1537） | 79.70%（1225/1537） |
-| Light Conditions | 89.14%（1018/1142） | 86.16%（984/1142） | 73.73%（842/1142） | 83.98%（959/1142） | 56.13%（641/1142） | 92.73%（1059/1142） |
-| Background Textures | 80.20%（863/1076） | 75.93%（817/1076） | 41.17%（443/1076） | 34.57%（372/1076） | 70.26%（756/1076） | 82.43%（887/1076） |
-| Sensor Noise | 66.08%（1058/1601） | 69.46%（1112/1601） | 75.14%（1203/1601） | 94.13%（1507/1601） | 41.41%（663/1601） | 86.38%（1383/1601） |
-| 总计 | 68.08%（6828/10030） | 69.87%（7008/10030） | 66.93%（6713/10030） | 76.02%（7625/10030） | 47.63%（4777/10030） | 76.17%（7640/10030） |
+| 扰动类别 | [E01](outputs/m29_rynn9b_dinov3/eval/s42/2026-10-24_02-30-16/libero-plus/summary.json) | [E02](outputs/m29_rynn9b_ijepa/eval/s42/2026-10-22_23-15-46/libero-plus/evaluation/summary.json) | [E03](reports/E03_speed_optimization/automatic_evaluation/evaluation/libero-plus/summary.json) | [E04](reports/E04_wan22/automatic_evaluation/evaluation/libero-plus/summary.json) | [E05](reports/E05_training/automatic_evaluation/evaluation/libero-plus/summary.json) | [E06](reports/E06_training/automatic_evaluation/evaluation/libero-plus/summary.json) | [E07](reports/E07_E08_plus_20261103/E07/evaluation/libero-plus/summary.json) | [E08](reports/E07_E08_plus_20261103/E08/evaluation/libero-plus/summary.json) |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| Objects Layout | 69.44%（1059/1525） | 71.74%（1094/1525） | 76.59%（1168/1525） | 78.89%（1203/1525） | 56.20%（857/1525） | 77.44%（1181/1525） | 74.56%（1137/1525） | 72.72%（1109/1525） |
+| Camera Viewpoints | 38.71%（619/1599） | 52.41%（838/1599） | 61.04%（976/1599） | 88.43%（1414/1599） | 45.59%（729/1599） | 39.84%（637/1599） | 33.77%（540/1599） | 40.90%（654/1599） |
+| Robot Initial States | 75.35%（1168/1550） | 73.42%（1138/1550） | 67.87%（1052/1550） | 73.68%（1142/1550） | 45.23%（701/1550） | 81.81%（1268/1550） | 74.13%（1149/1550） | 77.81%（1206/1550） |
+| Language Instructions | 67.86%（1043/1537） | 66.69%（1025/1537） | 66.95%（1029/1537） | 66.88%（1028/1537） | 27.98%（430/1537） | 79.70%（1225/1537） | 74.17%（1140/1537） | 68.64%（1055/1537） |
+| Light Conditions | 89.14%（1018/1142） | 86.16%（984/1142） | 73.73%（842/1142） | 83.98%（959/1142） | 56.13%（641/1142） | 92.73%（1059/1142） | 95.10%（1086/1142） | 91.77%（1048/1142） |
+| Background Textures | 80.20%（863/1076） | 75.93%（817/1076） | 41.17%（443/1076） | 34.57%（372/1076） | 70.26%（756/1076） | 82.43%（887/1076） | 81.04%（872/1076） | 86.43%（930/1076） |
+| Sensor Noise | 66.08%（1058/1601） | 69.46%（1112/1601） | 75.14%（1203/1601） | 94.13%（1507/1601） | 41.41%（663/1601） | 86.38%（1383/1601） | 71.89%（1151/1601） | 45.85%（734/1601） |
+| 总计 | 68.08%（6828/10030） | 69.87%（7008/10030） | 66.93%（6713/10030） | 76.02%（7625/10030） | 47.63%（4777/10030） | 76.17%（7640/10030） | 70.54%（7075/10030） | 67.16%（6736/10030） |
 
 <!-- ENCODER_DETAIL_COMPARISON_END -->
+
+<a id="encoder-details"></a>
+
+<!-- E 系列详细记录：保留每个实验原始 checkpoint 和来源 -->
+
+<!-- E01_AUTO_RESULT_BEGIN -->
+## E01：M29 + RynnBrain 9B + DINOv3 H+
+
+最终固定预算 checkpoint（seed 42，10,690 steps）：
+
+```text
+outputs/m29_rynn9b_dinov3/train/s42/2026-10-24_02-30-16/checkpoint_step_10690.safetensors
+```
+
+### LIBERO
+
+- 完成度：`2000 / 2000`；评测完整，非 smoke。
+- 错误：`0`
+- 总成功率：**94.35%**（`1887 / 2000`）
+
+| 类别 | 成功数 | 有效 trial | 成功率 |
+|---|---:|---:|---:|
+| libero_spatial | 485 | 500 | **97.00%** |
+| libero_object | 497 | 500 | **99.40%** |
+| libero_goal | 458 | 500 | **91.60%** |
+| libero_10 | 447 | 500 | **89.40%** |
+| **总计** | **1887** | **2000** | **94.35%** |
+
+原始结果：[summary.json](outputs/m29_rynn9b_dinov3/eval/s42/2026-10-24_02-30-16/libero/summary.json)，[评测目录](outputs/m29_rynn9b_dinov3/eval/s42/2026-10-24_02-30-16/libero/)。
+
+各次尝试的 SQLite、完整计数和退出状态保存在该目录的 `attempts/` 下。
+
+### LIBERO-Plus
+
+- 完成度：`10030 / 10030`；评测完整，非 smoke。
+- 无效记录：`0`
+- 总成功率：**68.08%**（`6828 / 10030`）
+
+使用 corrected text；总成功率按总成功数 / 总有效 trial 计算。
+
+| 类别 | 成功数 | 有效 trial | 成功率 |
+|---|---:|---:|---:|
+| Objects Layout | 1059 | 1525 | **69.44%** |
+| Camera Viewpoints | 619 | 1599 | **38.71%** |
+| Robot Initial States | 1168 | 1550 | **75.35%** |
+| Language Instructions | 1043 | 1537 | **67.86%** |
+| Light Conditions | 1018 | 1142 | **89.14%** |
+| Background Textures | 863 | 1076 | **80.20%** |
+| Sensor Noise | 1058 | 1601 | **66.08%** |
+| **总计** | **6828** | **10030** | **68.08%** |
+
+原始结果：[summary.json](outputs/m29_rynn9b_dinov3/eval/s42/2026-10-24_02-30-16/libero-plus/summary.json)，[评测目录](outputs/m29_rynn9b_dinov3/eval/s42/2026-10-24_02-30-16/libero-plus/)。
+
+各次尝试的 SQLite、完整计数和退出状态保存在该目录的 `attempts/` 下。
+
+结果更新：2026-10-24 21:02:45（北京时间）。
+<!-- E01_AUTO_RESULT_END -->
 
 ## E02：M29 + RynnBrain 9B + I-JEPA
 
@@ -122,59 +195,6 @@ outputs/m29_rynn9b_ijepa/eval/s42/2026-10-22_23-15-46/libero-plus/evaluation
 - SQLite：[recording-feeda3fd-2798-4e83-ab5e-d9fe589b1bd4.sqlite](outputs/m29_rynn9b_ijepa/eval/s42/2026-10-22_23-15-46/libero-plus/evaluation/recording-feeda3fd-2798-4e83-ab5e-d9fe589b1bd4.sqlite)
 
 结果更新：2026-10-24。LIBERO 与 LIBERO-Plus 为独立 benchmark，分别报告成绩。
-
-<!-- E01_AUTO_RESULT_BEGIN -->
-## E01：M29 + RynnBrain 9B + DINOv3 H+
-
-最终固定预算 checkpoint（seed 42，10,690 steps）：
-
-```text
-outputs/m29_rynn9b_dinov3/train/s42/2026-10-24_02-30-16/checkpoint_step_10690.safetensors
-```
-
-### LIBERO
-
-- 完成度：`2000 / 2000`；评测完整，非 smoke。
-- 错误：`0`
-- 总成功率：**94.35%**（`1887 / 2000`）
-
-| 类别 | 成功数 | 有效 trial | 成功率 |
-|---|---:|---:|---:|
-| libero_spatial | 485 | 500 | **97.00%** |
-| libero_object | 497 | 500 | **99.40%** |
-| libero_goal | 458 | 500 | **91.60%** |
-| libero_10 | 447 | 500 | **89.40%** |
-| **总计** | **1887** | **2000** | **94.35%** |
-
-原始结果：[summary.json](outputs/m29_rynn9b_dinov3/eval/s42/2026-10-24_02-30-16/libero/summary.json)，[评测目录](outputs/m29_rynn9b_dinov3/eval/s42/2026-10-24_02-30-16/libero/)。
-
-各次尝试的 SQLite、完整计数和退出状态保存在该目录的 `attempts/` 下。
-
-### LIBERO-Plus
-
-- 完成度：`10030 / 10030`；评测完整，非 smoke。
-- 无效记录：`0`
-- 总成功率：**68.08%**（`6828 / 10030`）
-
-使用 corrected text；总成功率按总成功数 / 总有效 trial 计算。
-
-| 类别 | 成功数 | 有效 trial | 成功率 |
-|---|---:|---:|---:|
-| Objects Layout | 1059 | 1525 | **69.44%** |
-| Camera Viewpoints | 619 | 1599 | **38.71%** |
-| Robot Initial States | 1168 | 1550 | **75.35%** |
-| Language Instructions | 1043 | 1537 | **67.86%** |
-| Light Conditions | 1018 | 1142 | **89.14%** |
-| Background Textures | 863 | 1076 | **80.20%** |
-| Sensor Noise | 1058 | 1601 | **66.08%** |
-| **总计** | **6828** | **10030** | **68.08%** |
-
-原始结果：[summary.json](outputs/m29_rynn9b_dinov3/eval/s42/2026-10-24_02-30-16/libero-plus/summary.json)，[评测目录](outputs/m29_rynn9b_dinov3/eval/s42/2026-10-24_02-30-16/libero-plus/)。
-
-各次尝试的 SQLite、完整计数和退出状态保存在该目录的 `attempts/` 下。
-
-结果更新：2026-10-24 21:02:45（北京时间）。
-<!-- E01_AUTO_RESULT_END -->
 
 <!-- E03_PATCH_AUTO_RESULT_BEGIN -->
 ## E03-Patch：M29 + RynnBrain 9B + Wan2.1 VAE encoder
@@ -352,6 +372,73 @@ outputs/m29_rynn9b_dinov3/train/s42/2026-10-24_02-30-16/checkpoint_step_10690.sa
 
 <!-- E06_AUTO_RESULT_END -->
 
+<!-- E07_AUTO_RESULT_BEGIN -->
+
+## E07：M29 + RynnBrain 9B + DINOv3-L/16
+
+冻结 DINOv3-L，224×224 独立双视角；2 clean＋8 future，980 visual tokens。
+最后层 1024D patch features，沿宽度拼接；clean 直接投影，future bottleneck256→M29 1536D。
+x/x、shift42/5、logit_normal、λ_video=λ_action=1；seed42、global batch256、10690 steps。
+原始冻结特征独立 Cache；4 workers/rank、每 worker 2 线程。标准 LIBERO 40×50=2000 trials。
+
+| 套件 | 成功数 / Trials | 成功率 |
+|---|---:|---:|
+| libero_spatial | 495 / 500 | 99.00% |
+| libero_object | 491 / 500 | 98.20% |
+| libero_goal | 474 / 500 | 94.80% |
+| libero_10 | 440 / 500 | 88.00% |
+| Overall | 1900 / 2000 | **95.00%** |
+
+原始结果：[summary.json](reports/E07_training_20261102/E07/evaluation/libero/summary.json)。
+
+<!-- E07_AUTO_RESULT_END -->
+
+<!-- E08_AUTO_RESULT_BEGIN -->
+
+## E08：M29 + RynnBrain 9B + SigLIP-L/16
+
+冻结 SigLIP-L/16，256×256 独立双视角；2 clean＋8 future，1280 visual tokens。
+最后层 1024D patch features，沿宽度拼接；clean 直接投影，future bottleneck256→M29 1536D。
+x/x、shift42/5、logit_normal、λ_video=λ_action=1；seed42、global batch256、10690 steps。
+原始冻结特征独立 Cache；4 workers/rank、每 worker 2 线程。标准 LIBERO 40×50=2000 trials。
+
+| 套件 | 成功数 / Trials | 成功率 |
+|---|---:|---:|
+| libero_spatial | 485 / 500 | 97.00% |
+| libero_object | 490 / 500 | 98.00% |
+| libero_goal | 480 / 500 | 96.00% |
+| libero_10 | 433 / 500 | 86.60% |
+| Overall | 1888 / 2000 | **94.40%** |
+
+原始结果：[summary.json](reports/E08_training_20261102/E08/evaluation/libero/summary.json)。
+
+<!-- E08_AUTO_RESULT_END -->
+
+<!-- E07_E08_PLUS_BEGIN -->
+
+## E07 / E08：LIBERO-Plus
+
+完整七类10030条；corrected instructions，冻结原final step10690权重；10步sync、每chunk执行10步动作、关闭velocity cache。
+
+| 类别 | E07 DINOv3-L | E08 SigLIP-L |
+|---|---:|---:|
+| Objects Layout | 74.56%（1137/1525） | 72.72%（1109/1525） |
+| Camera Viewpoints | 33.77%（540/1599） | 40.90%（654/1599） |
+| Robot Initial States | 74.13%（1149/1550） | 77.81%（1206/1550） |
+| Language Instructions | 74.17%（1140/1537） | 68.64%（1055/1537） |
+| Light Conditions | 95.10%（1086/1142） | 91.77%（1048/1142） |
+| Background Textures | 81.04%（872/1076） | 86.43%（930/1076） |
+| Sensor Noise | 71.89%（1151/1601） | 45.85%（734/1601） |
+| Overall | **70.54%**（7075/10030） | **67.16%**（6736/10030） |
+
+E07 原始结果：[summary.json](reports/E07_E08_plus_20261103/E07/evaluation/libero-plus/summary.json)。
+
+E08 原始结果：[summary.json](reports/E07_E08_plus_20261103/E08/evaluation/libero-plus/summary.json)。
+
+<!-- E07_E08_PLUS_END -->
+
+<a id="ablations"></a>
+
 <!-- E01_ABLATION_QUEUE_BEGIN -->
 
 ## E01 Prediction / Shift 消融
@@ -378,7 +465,7 @@ outputs/m29_rynn9b_dinov3/train/s42/2026-10-24_02-30-16/checkpoint_step_10690.sa
 
 <!-- E01_P3_QUEUE_BEGIN -->
 
-E01-P3（v/v）已完成训练与标准 LIBERO：1813/2000，Overall **90.65%**。套件结果见上方消融表；[评测记录](/data/fcy/code/openwam-exp/reports/E01_P3_cache_w2_20261031/E01-P3/evaluation/libero/summary.json)。
+E01-P3（v/v）已完成训练与标准 LIBERO：1813/2000，Overall **90.65%**。套件结果见上方消融表；[评测记录](reports/E01_P3_cache_w2_20261031/E01-P3/evaluation/libero/summary.json)。
 
 <!-- E01_P3_QUEUE_END -->
 
@@ -409,73 +496,51 @@ E01-P3（v/v）已完成训练与标准 LIBERO：1813/2000，Overall **90.65%**�
 日志 Video Loss 已乘 λ_video；跨权重比较原始视频损失时须除以对应权重。Future MSE/cosine 不乘该权重。
 单训练种子结果，不代表统计显著性；总体成功率为主，同时检查 Goal/Long。
 
-- E01-LV05: [summary.json](/data/fcy/code/openwam-exp/reports/E01_LV05_cache_w2_20261101/E01-LV05/evaluation/libero/summary.json)
+- E01-LV05: [summary.json](reports/E01_LV05_cache_w2_20261101/E01-LV05/evaluation/libero/summary.json)
 
 完整记录：[VIDEO_LOSS_RESULTS.md](reports/E01_LV05_cache_w2_20261101/VIDEO_LOSS_RESULTS.md)。
 
 <!-- E01_VIDEO_LOSS_END -->
 
-<!-- E07_AUTO_RESULT_BEGIN -->
+<!-- VPP2_LIBERO_PLUS_RESULT_BEGIN -->
+<a id="vpp2-results"></a>
+## VPP2：LIBERO-Plus 完整评测
 
-## E07：M29 + RynnBrain 9B + DINOv3-L/16
+来源为本地已有完整评测，2026-11-09并入本页；不是重新评测，也不是 VPP2 官方发布的 Plus 分数。
 
-冻结 DINOv3-L，224×224 独立双视角；2 clean＋8 future，980 visual tokens。
-最后层 1024D patch features，沿宽度拼接；clean 直接投影，future bottleneck256→M29 1536D。
-x/x、shift42/5、logit_normal、λ_video=λ_action=1；seed42、global batch256、10690 steps。
-原始冻结特征独立 Cache；4 workers/rank、每 worker 2 线程。标准 LIBERO 40×50=2000 trials。
+### 模型与环境协议
 
-| 套件 | 成功数 / Trials | 成功率 |
-|---|---:|---:|
-| libero_spatial | 495 / 500 | 99.00% |
-| libero_object | 491 / 500 | 98.20% |
-| libero_goal | 474 / 500 | 94.80% |
-| libero_10 | 440 / 500 | 88.00% |
-| Overall | 1900 / 2000 | **95.00%** |
+- 权重：`weights/vpp2/libero/video_step010000.pt` 与 `weights/vpp2/libero/action_step030000.pt`，使用 VPP2 原生 UMT5 文本条件，不使用 RynnBrain。
+- 推理：每次预测32个7维动作，执行前10步后重新规划；10步 Euler、shift5；action/video noise seeds分别为42/43。
+- 环境：每任务新模拟进程，seed10000、settle30步；Spatial/Object/Goal上限600步，Long700步；修正指令后缀。
+- 调度：4张GPU、128 workers、调度最大batch16、动态任务领取；实际GPU microbatch受显存限制，以运行日志为准。
+- 计分：10,030个任务各trial0一次；只把环境done判为成功，总体按成功数/总有效trial计算。
 
-原始结果：[summary.json](/data/fcy/code/openwam-exp/reports/E07_training_20261102/E07/evaluation/libero/summary.json)。
+### 完成度与七类结果
 
-<!-- E07_AUTO_RESULT_END -->
+- `complete=true`、`selected_run_complete=true`、`smoke=false`。
+- 完成任务与有效trial：**10,030 / 10,030**；无效记录：**0**。
+- 总成功数：**8,342**；总体成功率：**83.17%**。
 
-<!-- E08_AUTO_RESULT_BEGIN -->
+| 扰动类别 | 成功数 / 有效 trial | 完成任务 | 成功率 |
+|---|---:|---:|---:|
+| Objects Layout | 1342/1525 | 1525/1525 | 88.00% |
+| Camera Viewpoints | 1104/1599 | 1599/1599 | 69.04% |
+| Robot Initial States | 1418/1550 | 1550/1550 | 91.48% |
+| Language Instructions | 1410/1537 | 1537/1537 | 91.74% |
+| Light Conditions | 1123/1142 | 1142/1142 | 98.34% |
+| Background Textures | 989/1076 | 1076/1076 | 91.91% |
+| Sensor Noise | 956/1601 | 1601/1601 | 59.71% |
+| **总计** | **8342/10030** | **10030/10030** | **83.17%** |
 
-## E08：M29 + RynnBrain 9B + SigLIP-L/16
+### 结果来源与比较边界
 
-冻结 SigLIP-L/16，256×256 独立双视角；2 clean＋8 future，1280 visual tokens。
-最后层 1024D patch features，沿宽度拼接；clean 直接投影，future bottleneck256→M29 1536D。
-x/x、shift42/5、logit_normal、λ_video=λ_action=1；seed42、global batch256、10690 steps。
-原始冻结特征独立 Cache；4 workers/rank、每 worker 2 线程。标准 LIBERO 40×50=2000 trials。
+- 原始表格：[RESULTS.md](outputs/vpp2_plus/full_w128_b16/libero-plus/RESULTS.md)。
+- 机器可读汇总：[summary.json](outputs/vpp2_plus/full_w128_b16/libero-plus/summary.json)。
+- 完整队列：[full_w128_b16](outputs/vpp2_plus/full_w128_b16/)，完成标记为 `DONE`；任务迁移来源见 [migration.json](outputs/vpp2_plus/full_w128_b16/migration.json)。
+- 本队列包含前一轮已完成的216个任务，其余任务在128/16配置下继续完成；迁移不是新增trial，不重复计分。
+- 该分数来自2026-11-04完成的既有评测，不能当作2026-11-05新增 `--client-action-queue` 路径的闭环收益或速度验证。
+- 模型权重、训练预算和文本条件与E系列不同，可以并列观察鲁棒性，但不能把差异解释为单独替换Encoder带来的收益。
+- 上述完整运行目录属于本地实验产物，未随Git发布；协议、适配与启动入口见 [VPP2评测说明](docs/VPP2_LIBERO_PLUS.md)。
 
-| 套件 | 成功数 / Trials | 成功率 |
-|---|---:|---:|
-| libero_spatial | 485 / 500 | 97.00% |
-| libero_object | 490 / 500 | 98.00% |
-| libero_goal | 480 / 500 | 96.00% |
-| libero_10 | 433 / 500 | 86.60% |
-| Overall | 1888 / 2000 | **94.40%** |
-
-原始结果：[summary.json](/data/fcy/code/openwam-exp/reports/E08_training_20261102/E08/evaluation/libero/summary.json)。
-
-<!-- E08_AUTO_RESULT_END -->
-
-<!-- E07_E08_PLUS_BEGIN -->
-
-## E07 / E08：LIBERO-Plus
-
-完整七类10030条；corrected instructions，冻结原final step10690权重；10步sync、每chunk执行10步动作、关闭velocity cache。
-
-| 类别 | E07 DINOv3-L | E08 SigLIP-L |
-|---|---:|---:|
-| Objects Layout | 74.56%（1137/1525） | 72.72%（1109/1525） |
-| Camera Viewpoints | 33.77%（540/1599） | 40.90%（654/1599） |
-| Robot Initial States | 74.13%（1149/1550） | 77.81%（1206/1550） |
-| Language Instructions | 74.17%（1140/1537） | 68.64%（1055/1537） |
-| Light Conditions | 95.10%（1086/1142） | 91.77%（1048/1142） |
-| Background Textures | 81.04%（872/1076） | 86.43%（930/1076） |
-| Sensor Noise | 71.89%（1151/1601） | 45.85%（734/1601） |
-| Overall | **70.54%**（7075/10030） | **67.16%**（6736/10030） |
-
-E07 原始结果：[summary.json](/data/fcy/code/openwam-exp/reports/E07_E08_plus_20261103/E07/evaluation/libero-plus/summary.json)。
-
-E08 原始结果：[summary.json](/data/fcy/code/openwam-exp/reports/E07_E08_plus_20261103/E08/evaluation/libero-plus/summary.json)。
-
-<!-- E07_E08_PLUS_END -->
+<!-- VPP2_LIBERO_PLUS_RESULT_END -->

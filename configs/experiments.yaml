@@ -4,6 +4,8 @@ experiments:
   E00: configs/experiments/E00.yaml
   E00+: configs/experiments/E00+.yaml
   E00+-Dense: configs/experiments/E00+-Dense.yaml
+  E00+-FrozenDense: configs/experiments/E00+-FrozenDense.yaml
+  E00-FrozenDecoder: configs/experiments/E00-FrozenDecoder.yaml
   E01: configs/experiments/E01.yaml
   E02: configs/experiments/E02.yaml
   E01-Cache: configs/experiments/E01-Cache.yaml

@@ -27,7 +27,7 @@ import math
 import os
 
 import torch
-from omegaconf import DictConfig, OmegaConf
+from omegaconf import DictConfig, OmegaConf, open_dict
 
 from openwam.train.utils.checkpointing import (
     compute_resume_position,
@@ -122,16 +122,27 @@ class OpenWAMTrainer:
             resolved_arch, self.architecture, ckpt_cfg = build_architecture_from_ckpt_dir(
                 self._ckpt_source_dir,
                 weights_required=finetune_path is not None,
-                override_cfg=cfg if finetune_path is not None else None,
+                override_cfg=(
+                    cfg if finetune_path is not None and
+                    not bool(t.get("model_config_from_finetune_checkpoint", False))
+                    else None
+                ),
             )
             if finetune_path is not None:
-                # The merge replaced the cfg.model node, so `m` (bound above)
-                # still points at the pre-merge one — rebind it before `freeze`
-                # and the architecture logging below read from it.
-                m = cfg.model
+                if bool(t.get("model_config_from_finetune_checkpoint", False)):
+                    # Controlled fine-tunes can require an exact frozen model
+                    # definition from the source checkpoint. Ignore live
+                    # experiment-profile model overrides and persist the model
+                    # config that actually built the architecture.
+                    with open_dict(cfg):
+                        cfg.model = OmegaConf.create(
+                            OmegaConf.to_container(ckpt_cfg.model, resolve=False)
+                        )
+                    m = cfg.model
+                else:
+                    # The merge replaced cfg.model, so refresh the local alias.
+                    m = cfg.model
             else:
-                from omegaconf import OmegaConf
-
                 saved_distribution = validate_noise_schedule_distribution(
                     OmegaConf.select(ckpt_cfg, "training.noise_schedule_distribution", default="uniform")
                 )
@@ -166,6 +177,24 @@ class OpenWAMTrainer:
         freeze_list = list(getattr(m, "freeze", []))
         for name in self.architecture.freeze_modules(freeze_list):
             logger.info("Frozen: %s", name)
+
+        # Optional exact trainable scope for controlled adapter/decoder
+        # fine-tunes. An empty list keeps the established freeze-list behavior.
+        trainable_prefixes = tuple(getattr(t, "trainable_parameter_prefixes", ()) or ())
+        if trainable_prefixes:
+            parameter_names = [name for name, _ in self.architecture.named_parameters()]
+            unmatched = [prefix for prefix in trainable_prefixes
+                         if not any(name.startswith(prefix) for name in parameter_names)]
+            if unmatched:
+                raise ValueError(f"No model parameters match trainable prefixes: {unmatched}")
+            for name, parameter in self.architecture.named_parameters():
+                parameter.requires_grad_(name.startswith(trainable_prefixes))
+            selected = [name for name, parameter in self.architecture.named_parameters()
+                        if parameter.requires_grad]
+            if not selected:
+                raise ValueError("trainable_parameter_prefixes selected no trainable parameters")
+            logger.info("Trainable parameter prefixes: %s (%d tensors)",
+                        trainable_prefixes, len(selected))
 
         # Initialize all schedulers (video + action) inside architecture
         self.architecture.init_training_schedulers(1000)
@@ -648,6 +677,14 @@ class OpenWAMTrainer:
         # Propagate device down through architecture; frozen modules (T5/VAE) idempotent move.
         arch.set_dtype_device(arch.dtype, self.accelerator.device)
         arch.move_frozen_to_device(self.accelerator.device)
+        action_decoder = getattr(getattr(arch, "action_backbone", None), "action_decoder", None)
+        router = getattr(arch, "action_router", None)
+        if action_decoder is not None:
+            logger.info(
+                "precision check: action_decoder.weight=%s, router.gate_logit=%s",
+                action_decoder.weight.dtype,
+                getattr(getattr(router, "gate_logit", None), "dtype", None),
+            )
         logger.info(
             "architecture wrapped (%s), device=%s",
             type(self.architecture).__name__,

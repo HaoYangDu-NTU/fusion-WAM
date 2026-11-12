@@ -2,6 +2,22 @@
 
 更新：2026-11-05。按本仓库可核对的实验阶段记录“改了什么、入口、配置、权重与结果”，不是将历史文档中所有待办视为已完成。40个配置的逐项索引见 [README](README.md)，完整分项成功率见 [result.md](result.md)。
 
+## 2026-11-12：E00+冻结主干与FP32 Router
+
+- 增加Decoder-only与Dense Router冻结主干对照配置及[统一入口](scripts/e00_plus_frozen_router.py)，两组均已完成1000步微调；记录见[实验报告](docs/E00_PLUS_FROZEN_ROUTER_20261112.md)。
+- 增加FP32 Gate、FP32残差计算和最终动作投影的dtype兼容处理；默认配置保留原实验行为。
+- 支持显式可训练参数白名单，以及从微调checkpoint保留完整模型配置，防止当前profile默认值改变冻结表示路径。
+- 增加独立600条Plus pilot入口与[GPU空闲等待队列](scripts/e00_plus_frozen_router_wait_eval.py)，保留已有权重和原始实验产物。
+- 补充B0/B1/B2闭环记录、公平性诊断及Gate/Attention分析文档。
+
+## 2026-11-10：E00+同源权重微调pilot
+
+- 新增 [入口](scripts/e00_plus_finetune.py) 和 [配置](configs/e00_plus_finetune.yaml)，不改变原从头训练的E00/Dense/Sparse配置。
+- 复用已核验的M29 + RynnBrain9B + V-JEPA E00 step10690。只追加Router参数，2151个共有tensors逐项相等，B1/B2初始化权重相同，保持严格checkpoint加载。
+- B0/B1/B2各1000步、LR1e-5、global batch256；稀疏项100步warmup、400步ramp。有限队列含正式batch的GPU smoke、初始B0及三组微调后标准LIBERO；等待现有GPU任务结束，不自动启动Plus。
+- 真实权重CPU严格训练加载、有限值和B2生产部署加载通过；20项定向回归通过。GPU训练及闭环收益以队列实际结果为准。
+- 详情：[E00+设计与微调协议](docs/E00_PLUS.md)。
+
 ## 2026-11-05：公共评测运行时 F0/F1
 
 - **改动**：从服务端逐步返回缓存动作，增加可选的 worker 本地动作队列；历史按实际控制步更新，动作耗尽时才请求下一块。保留原生动态 tensor batching。

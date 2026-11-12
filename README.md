@@ -286,6 +286,8 @@ python scripts/experiment.py train E07-Cache --gpus 0,1,2,3 --seed 42 \
 | E01预测/shift/Loss消融 | [e01_ablation_queue.py](scripts/e01_ablation_queue.py) | 支持 `--single-experiment`、`--result-label`；历史任务顺序见实验文档 |
 | E07/E08 Cache→验收→smoke→训练→LIBERO | [e07_train_eval_queue.py](scripts/e07_train_eval_queue.py) | `--experiment E07` 或 `E08`；默认带历史前序队列依赖 |
 | E07/E08 Plus补评测 | [e07_e08_plus_queue.py](scripts/e07_e08_plus_queue.py) | 已有训练产物的两组Plus评测 |
+| E00+匹配微调pilot | [e00_plus_finetune.py](scripts/e00_plus_finetune.py) | 已有E00权重→三组smoke→初始B0评测→B0/B1/B2各1000步+标准LIBERO；等待GPU空闲 |
+| E00+冻结主干对照 | [e00_plus_frozen_router.py](scripts/e00_plus_frozen_router.py) | 原始E00配置→Decoder-only / FP32 Dense Router各1000步→相同600条Plus pilot；[GPU空闲队列](scripts/e00_plus_frozen_router_wait_eval.py) |
 | 标准LIBERO→Plus持久评测 | [eval_libero_then_plus.sh](scripts/eval_libero_then_plus.sh) | 独立checkpoint、结果校验、断点重试 |
 
 这些控制器包含本机路径和历史依赖，不能在新机器直接复用旧队列目录。阅读 `--help`，用新目录并明确任务；不要把旧报告文件存在等同于任务已完成。
@@ -300,7 +302,11 @@ E00 → E00+-Dense → E00+ 对应 B0/B1/B2。实现位于 [action_router.py](op
 - 保留稠密主干和全部视觉token，属于soft稀疏读出，不是硬裁剪或已证实的因果解耦。
 - 已有数学、mask、梯度、重载、真实资产CPU验收；尚未登记正式B0/B1/B2闭环收益。
 
-新Router没有外部预训练权重。旧E00 checkpoint不含Router参数，不能直接严格加载成E00+并称为精确恢复；本仓库尚未提供已验收的通用E00→E00+ warm-start迁移入口。训练命令同第6节，实验ID替换为 `'E00+-Dense'` 或 `'E00+'`。详细配置、诊断及验证边界见 [E00_PLUS.md](docs/E00_PLUS.md)。
+新Router没有外部预训练权重。从头训练命令同第6节，实验ID替换为 `'E00+-Dense'` 或 `'E00+'`。
+
+2026-11-10新增匹配微调入口 [e00_plus_finetune.py](scripts/e00_plus_finetune.py)，配置为 [e00_plus_finetune.yaml](configs/e00_plus_finetune.yaml)。使用已核验的M29/RynnBrain9B/V-JEPA E00 step10690，为B1/B2显式追加相同Router初值，逐项验证共有权重未变，之后继续严格加载。三组同源、LR1e-5、四卡global batch256，各微调1000步；B2稀疏项使用100步warmup+400步ramp。该pilot与原10690步从头训练分别记账，尚无闭环收益结论。运行顺序为 `--prepare` → `CUDA_VISIBLE_DEVICES='' ... --validate-cpu` → `--run`，不需下载新预训练权重。具体命令、路径、诊断和停止方式见 [E00_PLUS.md](docs/E00_PLUS.md)。
+
+后续记录见 [B0/B1/B2实验日志](docs/E00_PLUS_EXPERIMENT_LOG_20261110.md)、[公平性与机制诊断](docs/E00_PLUS_DIAGNOSIS_20261111.md)、[Gate精度与Attention Collapse检查](docs/E00_PLUS_GATE_COLLAPSE_20261111.md)。2026-11-12的[冻结主干实验](docs/E00_PLUS_FROZEN_ROUTER_20261112.md)已完成两组1000步微调，使用FP32 Gate与残差计算，并从checkpoint保留原始模型配置；配置入口为 [E00-FrozenDecoder](configs/experiments/E00-FrozenDecoder.yaml) 和 [E00+-FrozenDense](configs/experiments/E00+-FrozenDense.yaml)。复用现有E00与Router初始化权重，无需新下载；本机路径需要在其他机器上调整。600条Plus仅作为pilot，完成情况以独立报告为准。
 
 ## 8. LIBERO / LIBERO-Plus 评测入口
 

@@ -332,7 +332,9 @@ class DualSystemSelfAttnArchitecture(BaseWAMArchitecture):
             if return_router_aux:
                 with torch.no_grad():
                     change = torch.nn.functional.linear(
-                        (updated - before).detach(), ab.action_decoder.weight.detach()).float()
+                        (updated - before).detach(),
+                        ab.action_decoder.weight.detach().to(dtype=(updated - before).dtype),
+                    ).float()
                     cells = torch.ones_like(change, dtype=torch.bool)
                     if router_action_is_pad is not None:
                         pad = router_action_is_pad.to(change.device).bool()

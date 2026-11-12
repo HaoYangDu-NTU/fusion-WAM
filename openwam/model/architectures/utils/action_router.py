@@ -9,7 +9,8 @@ from torch import nn
 class ActionVisualRouter(nn.Module):
     def __init__(self, action_dim, visual_dim, *, dim=512, num_heads=8,
                  top_k=32, gate_init=0.01, sparse_weight=0.01,
-                 warmup_steps=1000, ramp_steps=4000):
+                 warmup_steps=1000, ramp_steps=4000, fp32_gate=False,
+                 fp32_residual=False):
         super().__init__()
         for name, value in dict(dim=dim, num_heads=num_heads, top_k=top_k).items():
             if isinstance(value, bool) or not isinstance(value, int) or value <= 0:
@@ -26,6 +27,10 @@ class ActionVisualRouter(nn.Module):
         self.num_heads, self.head_dim, self.top_k = num_heads, dim // num_heads, top_k
         self.sparse_weight = float(sparse_weight)
         self.warmup_steps, self.ramp_steps = warmup_steps, ramp_steps
+        self.fp32_gate = bool(fp32_gate)
+        self.fp32_residual = bool(fp32_residual)
+        if self.fp32_residual and not self.fp32_gate:
+            raise ValueError("action_router.fp32_residual requires fp32_gate")
         self.action_norm = nn.LayerNorm(action_dim, elementwise_affine=False)
         self.visual_norm = nn.LayerNorm(visual_dim, elementwise_affine=False)
         self.q = nn.Linear(action_dim, dim)
@@ -34,6 +39,14 @@ class ActionVisualRouter(nn.Module):
         self.out = nn.Linear(dim, action_dim)
         # Keep the logit FP32 in arithmetic, even when parameters are BF16.
         self.gate_logit = nn.Parameter(torch.tensor(math.log(gate_init / (1 - gate_init))))
+
+    def _apply(self, fn, recurse=True):
+        module = super()._apply(fn, recurse=recurse)
+        # The model is moved/cast before optimizer construction. Preserve this
+        # one scalar's FP32 storage when the surrounding Router uses BF16.
+        if self.fp32_gate and self.gate_logit.dtype != torch.float32:
+            self.gate_logit.data = self.gate_logit.data.float()
+        return module
 
     def coefficient(self, optimizer_step):
         if isinstance(optimizer_step, bool) or not isinstance(optimizer_step, int) or optimizer_step < 0:
@@ -50,10 +63,21 @@ class ActionVisualRouter(nn.Module):
         b, queries, _ = actions.shape
         a, c = self.action_norm(actions), self.visual_norm(clean)
 
+        def linear(module, inputs):
+            # ZeRO may keep the trainable Router matrix in FP32 when the Gate
+            # is FP32, while the frozen M29 streams remain BF16. Preserve the
+            # stream compute dtype and let gradients flow through this cast to
+            # the optimizer's FP32 parameter/master copy.
+            return torch.nn.functional.linear(
+                inputs,
+                module.weight.to(dtype=inputs.dtype),
+                None if module.bias is None else module.bias.to(dtype=inputs.dtype),
+            )
+
         def heads(x):
             return x.reshape(b, -1, self.num_heads, self.head_dim).transpose(1, 2)
 
-        q, k, v = heads(self.q(a)), heads(self.k(c)), heads(self.v(c))
+        q, k, v = heads(linear(self.q, a)), heads(linear(self.k, c)), heads(linear(self.v, c))
         # Explicit FP32 softmax: the small router alone needs attention weights.
         # Keep this outside AMP so BF16 matmul does not hide logit growth.
         with torch.autocast(device_type=actions.device.type, enabled=False):
@@ -61,8 +85,13 @@ class ActionVisualRouter(nn.Module):
             weights = logits.softmax(dim=-1)
         routed = (weights.to(v.dtype) @ v).transpose(1, 2).reshape(b, queries, -1)
         gate = self.gate_logit.float().sigmoid()
-        delta = self.out(routed) * gate.to(actions.dtype)
-        updated = actions + delta
+        routed_output = linear(self.out, routed)
+        if self.fp32_residual:
+            delta = routed_output.float() * gate
+            updated = (actions.float() + delta).to(actions.dtype)
+        else:
+            delta = routed_output * gate.to(actions.dtype)
+            updated = actions + delta
         if not return_aux:
             return updated, None
         if query_valid is None:
