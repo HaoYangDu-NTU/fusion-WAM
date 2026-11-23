@@ -34,7 +34,7 @@
 ## 2026-11-04～05：VPP2 原生评测接入与完整 Plus
 
 - **改动**：增加 VPP2 原生资产/配置加载、图像与本体状态预处理、video prefill + action Euler的原生tensor batch、OOM拆批与顺序保持。文本编码器在cache miss时移到GPU、完成后回CPU；这不是已实现的全量离线UMT5缓存。
-- **入口**：[eval_vpp2_plus.sh](scripts/eval_vpp2_plus.sh)、`run_eval/run_resumable --policy-backend vpp2`；真实权重短测为 [profile_vpp2_batch.py](scripts/profile_vpp2_batch.py)。
+- **入口**：[eval_vpp2_plus.sh](scripts/eval_vpp2_plus.sh)、`run_eval/run_resumable --policy-backend vpp2`；真实权重短测为 [profile_vpp2_batch.py](scripts/profiling/profile_vpp2_batch.py)。
 - **代码**：[vpp2_policy.py](benchmarks/vla_harness/vpp2_policy.py)、[vpp2_batch.py](benchmarks/vla_harness/vpp2_batch.py)、[vpp2_model_server.py](benchmarks/vla_harness/vpp2_model_server.py)。
 - **权重**：需要VPP2自己的Video step10,000 + Action step30,000、原生Wan/CLIP/VAE/UMT5/tokenizer与stats；与E系列冻结Encoder和RynnBrain不同。
 - **协议**：预测32、执行10；10步Euler；action/video noise seeds42/43；两相机原生处理，8维state，夹爪只转换一次。

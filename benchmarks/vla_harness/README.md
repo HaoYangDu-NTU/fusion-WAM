@@ -34,7 +34,7 @@ python -m benchmarks.vla_harness.performance /path/to/attempt
 不加载模型和模拟器的通信回归探针：
 
 ```bash
-MSGPACK_PUREPYTHON=1 python -m scripts.profile_evaluation_transport \
+MSGPACK_PUREPYTHON=1 python -m scripts.profiling.profile_evaluation_transport \
   --history-offsets=-4,0 --output outputs/evaluation_runtime_validation/transport_history.json
 ```
 
@@ -214,12 +214,12 @@ CPU 回归测试：
 
 ```bash
 CUDA_VISIBLE_DEVICES='' /workspace/basics/miniconda3/envs/openwam/bin/python -m pytest \
-  tests/test_vla_harness_openwam.py tests/test_vla_harness_batch_engine.py -q
+  tests/benchmarks/vla_harness/test_vla_harness_openwam.py tests/benchmarks/vla_harness/test_vla_harness_batch_engine.py -q
 ```
 
 包含官方像素/state/action 对照、真实 harness WebSocket 多 session chunk 隔离、动态 batch、task 分片、suite 分母与错误处理，以及使用原生 `BaseWAMArchitecture.generate` 作为 oracle 的去噪/cache/噪声/归一化对照。真实 checkpoint、环境联调结果与速度数据见仓库根目录 `OPTIMIZATION_LOG.md` 最新记录，证据在 `profile_output/vla_harness_batch_20260919/`。
 
-本机存储兼容检查为 `tests/test_vla_harness_recording.py`：40 个真实子进程通过上游 RecordingStore 写入 2,000 条明确标记为 fixture 的记录，验证 WAL/SHM 留在本地、备份完整性及上游合并。该测试不运行模型，其合成成功率不属于评测结果。
+本机存储兼容检查为 `tests/benchmarks/vla_harness/test_vla_harness_recording.py`：40 个真实子进程通过上游 RecordingStore 写入 2,000 条明确标记为 fixture 的记录，验证 WAL/SHM 留在本地、备份完整性及上游合并。该测试不运行模型，其合成成功率不属于评测结果。
 
 2026-09-19 验证结果：66 项自动测试通过；真实 checkpoint 的 batch=1 与官方输出完全一致，batch=2 的两请求模型吞吐样本提升 1.73×；四卡/16 环境/CPU 渲染短程联调完成 16 条各 20 步的有效 episode，零基础设施错误。正式全量成功率尚未测量。
 

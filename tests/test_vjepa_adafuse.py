@@ -23,7 +23,7 @@ from openwam.model.video_backbone.encoder.vjepa21_fusion import AdaFuse
 from openwam.train.utils.checkpointing import save_config
 from tests.test_vjepa21_repa import RepaGridViT
 from tests.test_vjepa_concat import concat_source, encoder_source  # noqa: F401
-from tests.test_vla_harness_concat import libero_args
+from tests.benchmarks.vla_harness.test_vla_harness_concat import libero_args
 from tests.test_wan22_style_capacity import launcher_config
 from tests.test_wan_text_embedding_cache import make_cache
 

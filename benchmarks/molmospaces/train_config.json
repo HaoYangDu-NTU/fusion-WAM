@@ -1,0 +1,13 @@
+{
+  "data_source": "gs://gresearch/robotics/droid/1.0.1",
+  "split": "train",
+  "keep_ranges": "https://storage.googleapis.com/openpi-assets/droid/droid_sample_ranges_v1_0_1.json",
+  "filter": "success trajectories, OpenPI keep ranges on anchor, nonempty instruction",
+  "views": ["exterior_image_1_left", "exterior_image_2_left", "wrist_image_left"],
+  "state": "Franka joint positions in radians, then DROID gripper position",
+  "action": "seven absolute joint-position targets in radians, then DROID gripper command",
+  "normalization": "train-only per-channel mean and standard deviation",
+  "chunk": 8,
+  "batch_size": 8,
+  "training_factory": null
+}

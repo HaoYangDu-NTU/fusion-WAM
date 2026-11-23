@@ -1,0 +1,17 @@
+{
+  "molmospaces_commit": "735138876887eb64650742631b8dda841dd264bf",
+  "openpi_commit": "711487f019e5f03b254d427d4523b1f0805a4814",
+  "benchmarks": {
+    "MS-Open": ["classic", "molmospaces-bench-v1/ithor/FrankaOpenDataGenConfig/FrankaOpenDataGenConfig_20260123_json_benchmark"],
+    "MS-Close": ["classic", "molmospaces-bench-v1/ithor/FrankaCloseDataGenConfig/FrankaCloseDataGenConfig_20260123_json_benchmark"],
+    "MS-Pick": ["classic", "molmospaces-bench-v1/procthor-10k/FrankaPickDroidMiniBench/FrankaPickDroidMiniBench_json_benchmark_20251231"],
+    "MS-PnP": ["classic", "molmospaces-bench-v1/procthor-10k/FrankaPickandPlaceDroidMiniBench/FrankaPickandPlaceDroidMiniBench_20260111_json_benchmark"],
+    "MB-Pick-v1.5": ["classic", "molmospaces-bench-v2/procthor-10k/FrankaPickDroidMiniBench/FrankaPickDroidMiniBench_json_benchmark_20251231"],
+    "MB-Pick-Classic": ["classic", "molmospaces-bench-v2/procthor-objaverse/FrankaPickHardBench/FrankaPickHardBench_20260206_json_benchmark"],
+    "MB-Pick-Filament": ["filament", "molmospaces-bench-v2/procthor-objaverse/FrankaPickHardBench/FrankaPickHardBench_20260206_json_benchmark"],
+    "MB-Pick-RandCam": ["filament", "molmospaces-bench-v2/procthor-objaverse/FrankaPickHardBench/FrankaPickHardBench_20260206_json_benchmark", ["randomized_zed2_analogue_1", "wrist_camera_zed_mini"]],
+    "MB-PnP": ["filament", "molmospaces-bench-v2/procthor-objaverse/FrankaPickandPlaceHardBench/FrankaPickandPlaceHardBench_20260206_json_benchmark"],
+    "MB-PnP-NextTo": ["filament", "molmospaces-bench-v2/procthor-objaverse/FrankaPickandPlaceNextToHardBench/FrankaPickandPlaceNextToHardBench_20260305_json_benchmark"],
+    "MB-PnP-Color": ["filament", "molmospaces-bench-v2/procthor-objaverse/FrankaPickandPlaceColorHardBench/FrankaPickandPlaceColorHardBench_20260304_json_benchmark"]
+  }
+}

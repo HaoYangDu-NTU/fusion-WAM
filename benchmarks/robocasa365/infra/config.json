@@ -1,0 +1,18 @@
+{
+  "render_backend": "osmesa",
+  "schema_version": "robocasa365.raw.v1",
+  "dataset_soup": "pretrain_human300",
+  "history": 3,
+  "chunk": 4,
+  "batch_size": 2,
+  "workers": 0,
+  "normalize": false,
+  "augmentation": false,
+  "evaluation": {
+    "task_sets": ["atomic_seen", "composite_seen", "composite_unseen"],
+    "kitchen_split": "pretrain",
+    "trials_per_task": 50,
+    "horizon": "official_registry",
+    "overall": "mean_of_50_task_success_rates"
+  }
+}

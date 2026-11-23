@@ -10,7 +10,7 @@ class ActionVisualRouter(nn.Module):
     def __init__(self, action_dim, visual_dim, *, dim=512, num_heads=8,
                  top_k=32, gate_init=0.01, sparse_weight=0.01,
                  warmup_steps=1000, ramp_steps=4000, fp32_gate=False,
-                 fp32_residual=False):
+                 fp32_residual=False, residual_gain=1.0):
         super().__init__()
         for name, value in dict(dim=dim, num_heads=num_heads, top_k=top_k).items():
             if isinstance(value, bool) or not isinstance(value, int) or value <= 0:
@@ -29,6 +29,9 @@ class ActionVisualRouter(nn.Module):
         self.warmup_steps, self.ramp_steps = warmup_steps, ramp_steps
         self.fp32_gate = bool(fp32_gate)
         self.fp32_residual = bool(fp32_residual)
+        if not math.isfinite(residual_gain) or residual_gain < 0:
+            raise ValueError("action_router.residual_gain must be finite and nonnegative")
+        self.residual_gain = float(residual_gain)
         if self.fp32_residual and not self.fp32_gate:
             raise ValueError("action_router.fp32_residual requires fp32_gate")
         self.action_norm = nn.LayerNorm(action_dim, elementwise_affine=False)
@@ -85,12 +88,13 @@ class ActionVisualRouter(nn.Module):
             weights = logits.softmax(dim=-1)
         routed = (weights.to(v.dtype) @ v).transpose(1, 2).reshape(b, queries, -1)
         gate = self.gate_logit.float().sigmoid()
+        effective_gate = gate * self.residual_gain
         routed_output = linear(self.out, routed)
         if self.fp32_residual:
-            delta = routed_output.float() * gate
+            delta = routed_output.float() * effective_gate
             updated = (actions.float() + delta).to(actions.dtype)
         else:
-            delta = routed_output * gate.to(actions.dtype)
+            delta = routed_output * effective_gate.to(actions.dtype)
             updated = actions + delta
         if not return_aux:
             return updated, None

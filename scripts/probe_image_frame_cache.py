@@ -20,7 +20,7 @@ from openwam.experiments import resolve_experiment
 from openwam.dataloader.registry import build_dataset
 from openwam.dataloader.image_frame_cache import window_frame_indices
 from openwam.model.video_backbone.encoder.registry import build_video_encoder
-from scripts.precompute_flux2_features import CurrentStereoFrames, atomic_json
+from scripts.feature_cache.frames import CurrentStereoFrames, atomic_json
 
 
 def main():

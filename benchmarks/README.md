@@ -13,10 +13,12 @@ Bundled clients:
 - [RoboTwin](robotwin/README.md)
 - [LIBERO](libero/README.md)
 - [LIBERO-plus](libero-plus/README.md)
-- [RoboCasa365](robocasa365/README.md)
-- [RoboCasa GR1](robocasa_gr1/README.md)
+- [RoboCasa365](robocasa365/README.md) · [Training](robocasa365/TRAINING.md)
+- [RoboCasa GR1](robocasa_gr1/README.md) · [Training](robocasa_gr1/TRAINING.md)
 - [VLABench](vlabench/README.md)
 - [EBench](ebench/README.md)
+
+The [MolmoSpaces checkpoint guide](molmospaces/EVALUATION.md) and [RoboLab guide](robolab/README.md) describe their native DROID evaluation interfaces.
 
 RoboDojo trains through OpenWAM but evaluates through the external
 [XPolicyLab](https://github.com/XPolicyLab/XPolicyLab) repository — see

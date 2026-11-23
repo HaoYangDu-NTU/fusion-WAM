@@ -17,7 +17,7 @@ from openwam.dataloader.registry import build_dataset
 from openwam.dataloader.image_frame_cache import CachedImageDataset, ImageFrameCache, ImageFrameCacheCollator
 from openwam.dataloader.spatial_frame_cache_specs import frame_cache_identity
 from openwam.model.video_backbone.encoder.registry import build_video_encoder
-from scripts.precompute_flux2_features import atomic_json
+from scripts.feature_cache.frames import atomic_json
 
 
 def main():

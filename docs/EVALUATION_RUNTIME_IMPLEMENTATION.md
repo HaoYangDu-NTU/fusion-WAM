@@ -10,7 +10,7 @@
 | `benchmarks/vla_harness/chunk_server.py` | 复用现有原生合批服务，增加可选完整动作块返回、episode token 和控制步校验 |
 | `benchmarks/vla_harness/client.py` | worker 消费动作队列，按实际控制步维护历史，在重规划时上传所需帧 |
 | `benchmarks/vla_harness/performance.py` | 汇总各进程最后一个累计统计快照，输出请求比和真实 batch 分布 |
-| `scripts/profile_evaluation_transport.py` | 无 GPU 的真实 WebSocket 配对通信探针，显式标记替身策略和测量范围 |
+| `scripts/profiling/profile_evaluation_transport.py` | 无 GPU 的真实 WebSocket 配对通信探针，显式标记替身策略和测量范围 |
 
 OpenWAM/M29、FM-VJEPA、VPP2 都继承公共服务并声明自身能力；没有为每个模型复制客户端队列实现。M29 历史配置由 Encoder 读取；FM 原执行长度 16、历史偏移 -4；VPP2 原执行长度 10。预测长度与执行长度分开。
 

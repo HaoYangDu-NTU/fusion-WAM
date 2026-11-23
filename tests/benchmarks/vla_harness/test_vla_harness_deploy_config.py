@@ -12,7 +12,7 @@ def test_experiment_evaluation_disables_velocity_cache(tmp_path, monkeypatch, su
     stage = tmp_path / "stage"
     checkpoint = stage / subpath
     checkpoint.mkdir(parents=True)
-    root = Path(__file__).resolve().parents[1]
+    root = Path(__file__).resolve().parents[3]
     cfg = OmegaConf.load(root / "configs/deploy.yaml")
     assert cfg.optimization.dit_cache.enabled is True
     if override:

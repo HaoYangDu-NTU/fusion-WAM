@@ -41,3 +41,9 @@ The evaluation launcher resolves the unique timestamped `checkpoint_step_1000.sa
 - M29 block 0 and block 29 representative weights are bit-identical between each final checkpoint and its initialization (max difference 0), confirming the trunk remained frozen. The Action Decoder changed in both arms. Dense checkpoint stores Action Decoder and Router tensors as FP32; the preserved E00 M29 trunk remains BF16.
 - LIBERO-Plus pilot is queued in `reports/E00_plus/frozen_router_20261111/evaluation_queue/`; the queue launches both 600-trial evaluations after all four GPUs remain below 3,000 MiB for three consecutive 60-second checks. Other GPU workloads currently occupy the cards.
 - No success-rate conclusions are available yet.
+
+## 2026-11-21 continuation
+
+The November 12 queue exited after 14 LIBERO-Plus environment timeouts and zero valid trials. The November 21 run uses the same 600 selected variants, corrected instructions and step-1,000 checkpoints, with eight workers rendering across four GPUs. The three-stage controller adopts existing valid rows, runs the frozen FP32 checkpoint ON/OFF, then trains a matched scratch baseline and FP32 Dense Router. The historical baseline lacks a sampler identity and initialization digest, so both scratch arms use the same current training recipe and seed 42. The primary score uses the final checkpoint. A gain of at least 12 net successes in 600 trials triggers confirmation on a disjoint 600-variant selection and a second matched training seed (43). This threshold is a compute allocation decision.
+
+[Live status](../reports/E00_plus/frozen_router_20261111/sequence_20261121/status.json) · [Stage controller](../scripts/e00_router_sequence.py) · [Report directory](../reports/E00_plus/frozen_router_20261111/sequence_20261121/)

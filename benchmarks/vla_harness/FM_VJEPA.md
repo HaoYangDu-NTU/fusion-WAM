@@ -43,7 +43,7 @@ Run the regression suite on haoyang:
 
 ```bash
 cd /data/fcy/code/OpenWAM
-PYTHONDONTWRITEBYTECODE=1 OMP_NUM_THREADS=1 /data/fcy/basics/miniconda3/envs/openwam/bin/python -m pytest -q tests/test_vla_harness_fm.py tests/test_vla_harness_openwam.py tests/test_vla_harness_libero_plus.py tests/test_vla_harness_resume.py
+PYTHONDONTWRITEBYTECODE=1 OMP_NUM_THREADS=1 /data/fcy/basics/miniconda3/envs/openwam/bin/python -m pytest -q tests/benchmarks/vla_harness/test_vla_harness_fm.py tests/benchmarks/vla_harness/test_vla_harness_openwam.py tests/benchmarks/vla_harness/test_vla_harness_libero_plus.py tests/benchmarks/vla_harness/test_vla_harness_resume.py
 ```
 
 ## Invocation

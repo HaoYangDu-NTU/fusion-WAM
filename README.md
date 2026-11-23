@@ -13,6 +13,8 @@
 | 40个实验配置的注册表 | [configs/experiments.yaml](configs/experiments.yaml)，本页完整索引见下文 |
 | 固定主干、训练预算、评测协议 | [configs/protocol.yaml](configs/protocol.yaml) |
 | 训练/离线文本/评测统一入口 | [scripts/experiment.py](scripts/experiment.py) → [openwam/experiments.py](openwam/experiments.py) |
+| 仿真平台接入、RoboCasa 训练与 DROID 评测 | [各平台指南](benchmarks/README.md) |
+| 性能测量和评测框架回归测试 | [性能工具](scripts/profiling/) · [VLA Harness 测试](tests/benchmarks/vla_harness/) |
 | 资产路径、文件大小、来源和校验 | [assets/registry.json](assets/registry.json) |
 | 本次评测速度优化的实现与验证 | [实现报告](docs/EVALUATION_RUNTIME_IMPLEMENTATION.md)、[完整方案](docs/ROBOSCOPE_EVALUATION_SPEED_PLAN.md) |
 
@@ -406,7 +408,7 @@ python -m benchmarks.vla_harness.run_resumable \
 | worker动作队列、逐控制步历史、重置清理、断线保护 | [client.py](benchmarks/vla_harness/client.py) |
 | 模型接入 | [M29](benchmarks/vla_harness/model_server.py)、[FM](benchmarks/vla_harness/fm_model_server.py)、[VPP2](benchmarks/vla_harness/vpp2_model_server.py) |
 | 公共统计汇总 | [performance.py](benchmarks/vla_harness/performance.py) |
-| CPU通信配对探针 | [profile_evaluation_transport.py](scripts/profile_evaluation_transport.py) |
+| CPU通信配对探针 | [profile_evaluation_transport.py](scripts/profiling/profile_evaluation_transport.py) |
 
 启用方式就是在 `run_eval`、`run_resumable` 或其包装命令后加 **`--client-action-queue`**；默认仍保留原路径。新模型继承公共服务并声明能力，原生预处理/归一化/采样留在adapter；必须逐步observe的模型不能直接省略中间观测，不支持原生batch的模型不能假装批量执行。
 
@@ -421,7 +423,7 @@ python -m benchmarks.vla_harness.run_resumable \
 
 ```bash
 # 不加载模型/模拟器/GPU的专项探针
-MSGPACK_PUREPYTHON=1 python -m scripts.profile_evaluation_transport \
+MSGPACK_PUREPYTHON=1 python -m scripts.profiling.profile_evaluation_transport \
   --history-offsets=-4,0 --output outputs/transport_probe.json
 
 # 启动评测后，汇总某一attempt的公共统计
@@ -439,7 +441,7 @@ python -m benchmarks.vla_harness.performance /path/to/attempt
 ```bash
 OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MSGPACK_PUREPYTHON=1 \
 python -m pytest -q tests/test_evaluation_execution.py \
-  tests/test_vla_harness_openwam.py tests/test_vla_harness_startup.py
+  tests/benchmarks/vla_harness/test_vla_harness_openwam.py tests/benchmarks/vla_harness/test_vla_harness_startup.py
 ```
 
 完整158项检查及两项已有依赖不兼容的说明见 [实施验证记录](docs/EVALUATION_RUNTIME_IMPLEMENTATION.md)。部分Encoder测试需真实资产，GPU测试需空闲硬件；不能把缺失权重跳过或CPU替身检查当成完成闭环评测。

@@ -10,7 +10,7 @@
 - 已增加：episode/控制步校验、断线后禁止无状态重放、重置清空缓存；cgroup CPU 配额/压力采样；`performance.py` 统计汇总。
 - 验证：实际 WebSocket、多会话合批、M29多种历史配置、FM/VPP2 adapter、块中途终止、step 上限、图像缓冲复用、旧/新续跑配置身份。模型权重与模拟器均未在这些测试中加载。
 - 待做：F2 自动并发搜索与配置持久化、F3 子进程 `step_chunk`、F4 常驻模拟进程；这些不计入当前已完成能力。
-- 性能探针：`scripts/profile_evaluation_transport.py`，使用替身策略验证通信路径；不代表真实模型端到端加速。
+- 性能探针：`scripts/profiling/profile_evaluation_transport.py`，使用替身策略验证通信路径；不代表真实模型端到端加速。
 - 当前验证结果与启用说明见 [第一批实现报告](EVALUATION_RUNTIME_IMPLEMENTATION.md)：158项通过，2项已有记录接口不兼容测试显式排除。
 
 ## 1. 结论

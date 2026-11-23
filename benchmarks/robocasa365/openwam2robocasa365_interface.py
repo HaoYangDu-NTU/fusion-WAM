@@ -119,6 +119,7 @@ def build_obs_payload(
     image_transform: str,
     state_keys: Iterable[str],
     prompt: str,
+    seperate_encode_view: bool = False,
 ) -> dict:
     def encode(key: Optional[str], *, required: bool, slot: str) -> Optional[str]:
         if not key:
@@ -130,8 +131,9 @@ def build_obs_payload(
                 raise KeyError(f"RoboCasa365 obs missing camera key: {key}")
             return None
         image = transform_image(obs[key], image_transform)
-        # Match the unchanged training reader's pre-composition LANCZOS resize.
-        return encode_numpy_b64(resize_for_lshape_slot(image, slot))
+        if not seperate_encode_view:
+            image = resize_for_lshape_slot(image, slot)
+        return encode_numpy_b64(image)
 
     return build_payload(
         head=encode(head_camera_key, required=True, slot="head_camera"),
@@ -257,6 +259,7 @@ class OpenWAMRoboCasa365Policy:
         debug: bool = False,
         debug_dir: str = "./debug_robocasa365",
         _client=None,
+        seperate_encode_view: bool = False,
     ) -> None:
         if image_transform not in ("none", "rotate_180"):
             raise ValueError("image_transform must be 'none' or 'rotate_180'")
@@ -272,6 +275,7 @@ class OpenWAMRoboCasa365Policy:
         self._debug_dir = debug_dir
         self._episode = -1
         self._step = 0
+        self._seperate_encode_view = seperate_encode_view
 
         pong = self._client.ping()
         if pong.get("type") != transport.PONG:
@@ -317,6 +321,7 @@ class OpenWAMRoboCasa365Policy:
             image_transform=self._image_transform,
             state_keys=self._state_keys,
             prompt=prompt,
+            seperate_encode_view=self._seperate_encode_view,
         )
         if len(payload["state"]) != self._state_dim:
             raise ValueError(f"RoboCasa365 state dim {len(payload['state'])} != expected {self._state_dim}")

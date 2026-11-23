@@ -17,7 +17,7 @@ from tests.test_dual_system_idm import _GenerateVideoBackbone, _make_idm_with_vi
 from tests.test_finetune_config_override import _live_cfg, _write_ckpt_cfg
 from tests.test_flow_prediction import TinyArchitecture
 from tests.test_openwam_trainer import _make_fake_loss_inputs
-from tests.test_vla_harness_batch_engine import CPUArchitecture, Encoder
+from tests.benchmarks.vla_harness.test_vla_harness_batch_engine import CPUArchitecture, Encoder
 
 
 @pytest.mark.parametrize("scale", [0, -1, float("nan"), float("inf"), -float("inf"), None, "invalid"])

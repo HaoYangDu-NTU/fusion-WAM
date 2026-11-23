@@ -22,7 +22,7 @@ from openwam.dataloader.image_frame_cache import (
 )
 from openwam.dataloader.spatial_frame_cache_specs import frame_cache_identity
 from openwam.model import build_architecture, resolve_architecture_config
-from scripts.precompute_flux2_features import atomic_json
+from scripts.feature_cache.frames import atomic_json
 from scripts.precompute_wan_latents import write_shard
 
 

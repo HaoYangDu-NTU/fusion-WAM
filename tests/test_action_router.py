@@ -208,3 +208,19 @@ def test_resume_next_update_matches(tmp_path):
     torch.testing.assert_close(actual, expected, rtol=0, atol=0)
     for key, value in model.state_dict().items():
         torch.testing.assert_close(restored.state_dict()[key], value, rtol=0, atol=0)
+
+
+@pytest.mark.parametrize("gain", [0.0, 1.0, 2.0])
+def test_residual_gain_scales_output_and_router_gradient(gain):
+    torch.manual_seed(17)
+    options = dict(dim=8, num_heads=2, gate_init=0.1, fp32_gate=True, fp32_residual=True)
+    native = ActionVisualRouter(6, 8, **options)
+    scaled = ActionVisualRouter(6, 8, residual_gain=gain, **options)
+    scaled.load_state_dict(native.state_dict(), strict=True)
+    actions, clean = torch.randn(2, 3, 6), torch.randn(2, 5, 8)
+    reference, _ = native(actions, clean)
+    result, _ = scaled(actions, clean)
+    torch.testing.assert_close(result, actions + gain * (reference - actions))
+    result.sum().backward()
+    reference.sum().backward()
+    torch.testing.assert_close(scaled.gate_logit.grad, gain * native.gate_logit.grad)

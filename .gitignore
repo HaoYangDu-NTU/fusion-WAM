@@ -56,3 +56,6 @@ dist/
 *.key
 .vscode/
 .idea/
+
+# Local simulator sources, environments, assets and datasets
+/.benchmark_runtime/

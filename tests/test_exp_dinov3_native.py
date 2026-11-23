@@ -28,7 +28,7 @@ from openwam.model.video_backbone.encoder.dinov3 import DinoV3VideoEncoder
 from openwam.model.video_backbone.wan.models.dit import sinusoidal_embedding_1d
 from openwam.model.video_backbone.wan22_style_backbone import Wan22Style
 from openwam.train.utils.checkpointing import save_config
-from tests.test_vla_harness_concat import libero_args
+from tests.benchmarks.vla_harness.test_vla_harness_concat import libero_args
 from tests.test_wan22_style_capacity import launcher_config
 from tests.test_wan_text_embedding_cache import make_cache
 

@@ -40,7 +40,7 @@ def _write_worker(path, worker, gate):
 
 def test_forty_writers_local_wal_and_persistent_merge(tmp_path):
     local_db, output_db = prepare_recording_db(tmp_path, "fixture")
-    assert local_db.is_relative_to(Path(__file__).resolve().parents[1] / "vlaharness_tmp")
+    assert local_db.is_relative_to(Path(__file__).resolve().parents[3] / "vlaharness_tmp")
     anchor = RecordingStore(output_db)
     try:
         anchor.upsert_eval_metadata(

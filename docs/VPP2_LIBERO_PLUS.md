@@ -60,7 +60,7 @@ cat outputs/vpp2_plus/CURRENT/libero-plus/summary.json
 
 ## 验证
 
-`tests/test_vla_harness_vpp2.py` 检查原始相机方向、官方缩放结果、原生8维状态、归一化、采样种子、prompt缓存和夹爪转换。
+`tests/benchmarks/vla_harness/test_vla_harness_vpp2.py` 检查原始相机方向、官方缩放结果、原生8维状态、归一化、采样种子、prompt缓存和夹爪转换。
 相关回归检查日志在 `outputs/vpp2_plus/batch16_tests.log`。新增测试覆盖批量采样噪声、不同图像/本体/文本的样本隔离、文本编码器卸载与缓存复用，以及 OOM 分块顺序。
 初次扩大检查时遇到两项已有测试约定不一致：旧任务身份缺少当前默认指令修正字段，以及 startup 测试仍要求已移除的 merge 参数；没有为本次模型适配修改这些已有行为。
 

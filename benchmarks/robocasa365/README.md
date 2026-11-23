@@ -1,5 +1,11 @@
 # RoboCasa365 Evaluation
 
+For **unaltered Human300 preparation and model-independent raw state16/action12
+interfaces**, see [the infrastructure guide](infra/README.md). It includes
+allowlisted downloads, integrity audits, dry-run/checkpoint contracts, and a
+50-task Standard evaluator. This host's verified renderer is OSMesa; the EGL
+path exhibits black frames (diagnostics and limitations are recorded there).
+
 Two processes: the **OpenWAM policy server** (this repo's env, holds the model) and the **RoboCasa365 client** (its own env). They talk over WebSocket ([wire protocol](../README.md)), so the two environments never interfere.
 
 Commands below assume conda at `/path/to/miniconda3` and the external checkouts at `/path/to/robocasa`, `/path/to/robosuite` — substitute your actual paths.

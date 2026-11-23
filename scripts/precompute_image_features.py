@@ -22,7 +22,7 @@ from openwam.experiments import resolve_experiment
 from openwam.dataloader.registry import build_dataset
 from openwam.dataloader.spatial_frame_cache_specs import frame_cache_identity
 from openwam.model.video_backbone.encoder.registry import build_video_encoder
-from scripts.precompute_flux2_features import CurrentStereoFrames, atomic_json
+from scripts.feature_cache.frames import CurrentStereoFrames, atomic_json
 from scripts.precompute_wan_latents import write_shard
 
 

@@ -110,14 +110,14 @@ GPU 在线/缓存数值差异和正式 batch I/O 吞吐尚未测量，不能用 
 - `third_party/vggt_omega/`：本地原版代码副本，Aggregator 未修改。
 - `configs/model/video_backbone/encoder/vggt_omega.yaml`、`configs/experiments/E05.yaml`、实验/资产注册。
 - `benchmarks/vla_harness/checkpoint_contract.py`、`run_eval.py`、`prepare_libero_plus_svae.py`：原协议入口适配。
-- `tests/test_vggt_omega_encoder.py`、`scripts/smoke_e05_spatial.py`、`scripts/profile_e05_cache.py`。
+- `tests/test_vggt_omega_encoder.py`、`scripts/smoke_e05_spatial.py`、`scripts/profiling/profile_e05_cache.py`。
 
 ```bash
 cd /data/fcy/code/openwam-exp
 PY=/data/haoyang/miniconda3/envs/openwam/bin/python
 CUDA_VISIBLE_DEVICES='' OMP_NUM_THREADS=4 "$PY" -m pytest tests/test_vggt_omega_encoder.py -q
 CUDA_VISIBLE_DEVICES='' "$PY" scripts/smoke_e05_spatial.py --full-policy --steps 2
-CUDA_VISIBLE_DEVICES='' "$PY" scripts/profile_e05_cache.py
+CUDA_VISIBLE_DEVICES='' "$PY" scripts/profiling/profile_e05_cache.py
 "$PY" scripts/experiment.py train E05 --dry-run
 ```
 
