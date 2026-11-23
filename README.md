@@ -1,22 +1,18 @@
-# fusion-WAM / OpenWAM-Exp
+# OpenWAM-Exp
 
-**M29 世界—动作模型的视觉表示对比、动作读出实验与公共评测框架。**
+OpenWAM-Exp 基于 OpenWAM，在相同的 M29 主干、RynnBrain 1.1-9B 文本条件和 LIBERO 训练预算下，研究视觉编码器和动作读出方式如何影响机器人操作成功率。仓库提供训练配置、缓存构建工具，以及 LIBERO 和 LIBERO-Plus 闭环评测入口。
 
-本仓库基于 OpenWAM，保留原项目命名和 Apache-2.0 许可证。核心研究固定 M29 Joint Attention 主干、RynnBrain 1.1-9B 文本条件、LIBERO 数据和训练预算，比较冻结视觉 Encoder 及必要适配层；另提供 FM-VJEPA、VPP2 的原生评测适配器。
+## 从这里开始
 
-更新：**2026-11-05**。这里区分已实现、已验证、已完成评测和后续计划；历史设计文档中的“正在运行/待执行”以本页和结果记录为准。
-
-| 阅读目标 | 入口 |
+| 我想做什么 | 从哪里开始 |
 |---|---|
-| 实验结果与套件/扰动明细 | [result.md](result.md) |
-| 每阶段改动、实验与状态变化 | [CHANGELOG.md](CHANGELOG.md) |
-| 40个实验配置的注册表 | [configs/experiments.yaml](configs/experiments.yaml)，本页完整索引见下文 |
-| 固定主干、训练预算、评测协议 | [configs/protocol.yaml](configs/protocol.yaml) |
-| 训练/离线文本/评测统一入口 | [scripts/experiment.py](scripts/experiment.py) → [openwam/experiments.py](openwam/experiments.py) |
-| 仿真平台接入、RoboCasa 训练与 DROID 评测 | [各平台指南](benchmarks/README.md) |
-| 性能测量和评测框架回归测试 | [性能工具](scripts/profiling/) · [VLA Harness 测试](tests/benchmarks/vla_harness/) |
-| 资产路径、文件大小、来源和校验 | [assets/registry.json](assets/registry.json) |
-| 本次评测速度优化的实现与验证 | [实现报告](docs/EVALUATION_RUNTIME_IMPLEMENTATION.md)、[完整方案](docs/ROBOSCOPE_EVALUATION_SPEED_PLAN.md) |
+| 查看各编码器的成功率和分任务结果 | [实验结果](result.md) · [对照实验协议](configs/protocol.yaml) |
+| 选择训练配置并检查参数 | [实验注册表](configs/experiments.yaml) · [训练入口](scripts/experiment.py) |
+| 准备数据、模型权重和特征缓存 | [资产清单](assets/registry.json) · [E05/E06 共享缓存实现](scripts/feature_cache/) |
+| 评测已有 checkpoint，或中断后续跑 | [LIBERO / LIBERO-Plus 运行指南](benchmarks/vla_harness/README.md) · [恢复评测](benchmarks/vla_harness/RESUMABLE.md) |
+| 接入其他仿真平台 | [RoboCasa365](benchmarks/robocasa365/TRAINING.md) · [RoboCasa GR1](benchmarks/robocasa_gr1/TRAINING.md) · [MolmoSpaces](benchmarks/molmospaces/EVALUATION.md) · [RoboLab](benchmarks/robolab/README.md) |
+| 复查性能或运行回归测试 | [性能测量脚本](scripts/profiling/) · [VLA Harness 测试](tests/benchmarks/vla_harness/) |
+| 追踪动作读出实验 | [冻结主干的 Router 对照](docs/E00_PLUS_FROZEN_ROUTER_20261112.md) · [稀疏读出后续实验](docs/E00_CAUSALWAM_FOLLOWUP_20261121.md) · [变更记录](CHANGELOG.md) |
 
 ## 1. 先回答：是否需要下载新权重？
 
@@ -81,7 +77,7 @@ E03 的已报告成绩属于 **E03-Patch**，不是原始3528-token的 `E03` 或
 
 VPP2 在本项目 Plus 协议下已完成 **8,342/10,030 = 83.17%**，无无效记录。来源是本地 `outputs/vpp2_plus/full_w128_b16/libero-plus/summary.json`，该运行产物未随 GitHub 发布。它是不同规模/结构模型的外部评测结果，不能加入“仅替换视觉 Encoder”的单变量结论，也不是本次新传输路径的加速验收。
 
-## 3. 全部40个已注册配置
+## 3. 已注册训练配置
 
 注册表为 [configs/experiments.yaml](configs/experiments.yaml)。以下逐项列出，避免混淆结果标签与可执行实验名；“已注册”不等于“已训练/已评测”。所有条目都可通过 `scripts/experiment.py train ID --dry-run` 解析。
 
@@ -90,6 +86,8 @@ VPP2 在本项目 Plus 协议下已完成 **8,342/10,030 = 83.17%**，无无效�
 | `E00` | [E00.yaml](configs/experiments/E00.yaml) | vjepa21_g；490 tokens |
 | `E00+` | [E00+.yaml](configs/experiments/E00+.yaml) | 继承 E00；残差 Router；稀疏权重0.01 |
 | `E00+-Dense` | [E00+-Dense.yaml](configs/experiments/E00+-Dense.yaml) | 继承 E00；残差 Router；稀疏权重0.0 |
+| `E00+-FrozenDense` | [E00+-FrozenDense.yaml](configs/experiments/E00+-FrozenDense.yaml) | Dense 对照，FP32 gate 和残差累加；训练脚本指定冻结范围 |
+| `E00-FrozenDecoder` | [E00-FrozenDecoder.yaml](configs/experiments/E00-FrozenDecoder.yaml) | 无 Router 的冻结对照，沿用 E00 主干配置 |
 | `E01` | [E01.yaml](configs/experiments/E01.yaml) | dinov3_hplus；980 tokens |
 | `E02` | [E02.yaml](configs/experiments/E02.yaml) | ijepa_g；490 tokens |
 | `E01-Cache` | [E01-Cache.yaml](configs/experiments/E01-Cache.yaml) | dinov3_hplus；980 tokens；冻结逐帧特征 Cache |
@@ -150,8 +148,11 @@ fusion-WAM/                          # 服务器目录名为 openwam-exp
 ├── openwam/text_condition/          # 离线文本特征、指纹与Cache
 ├── openwam/train/ / deploy/         # 训练、checkpoint、推理重建
 ├── scripts/                        # 统一入口、Cache生成、队列、探针
+├── scripts/feature_cache/          # E05/E06 的立体帧读取、缓存生成与校验
+├── scripts/profiling/              # 性能测量入口
 ├── benchmarks/vla_harness/          # LIBERO/Plus公共调度与模型adapter
 ├── tests/                          # 回归、协议、梯度、Cache和传输测试
+├── tests/benchmarks/vla_harness/   # 评测协议、调度和断点恢复测试
 ├── docs/                           # 每阶段设计与实施报告
 └── third_party/                    # 随源码保存的第三方实现，许可证各自保留
 ```
